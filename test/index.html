@@ -1,13 +1,25 @@
 <!doctype html>
-<html>
+<html ng-app="maze">
     <head>
         <meta charset="UTF-8" />
         <title>hello phaser!</title>
+        <!-- <script type="text/javascript" src="bower_components/angular/angular.js"></script> -->
+    	<script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.6/angular.js'></script>
+
         <script src="bower_components/phaser/build/phaser.js"></script>
     </head>
     <body>
 
     <script type="text/javascript" src= "game.js"></script>
+    <div ng-controller = "mazeCtrl as mCtrl">
+    	<table>
+    		<tr ng-repeat = "row in mCtrl.size">
+    			<td ng-repeat= "tile in mCtrl.size">{{mCtrl.size[tile+row]}}{{tile}}</td>
+    		</tr>
+    	</table>
+    		
+    </div>
 
+        <script type="text/javascript" src="maze.js"></script>
     </body>
 </html>

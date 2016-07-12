@@ -2,16 +2,16 @@ var game = new Phaser.Game(800,600, Phaser.AUTO, '', {preload: preload, create: 
 function preload(){
 	game.load.tilemap()
 	game.load.spritesheet('man','assets/walkcycle/BODY_male.png',64,64)
-    game.load.tilemap('map', 'assets/maps/newset.json', null, Phaser.Tilemap.TILED_JSON);
-    game.load.image('Dungeon', 'assets/maps/newset.png');
+    game.load.tilemap('map', 'assets/maps/numbermap.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.image('Dungeon', 'assets/maps/numbermap.png');
 
 }
 var map,
 	layer
 function create(){
 	map = game.add.tilemap('map')
-	map.addTilesetImage('dungeon2','Dungeon')
-	terrain = map.createLayer('Collision')
+	map.addTilesetImage('numbersheet','Dungeon')
+	// terrain = map.createLayer('Collision')
 	layer = map.createLayer('Tile Layer 1')
 	layer.resizeWorld();
 	game.stage.backgroundColor = "#4488AA"
