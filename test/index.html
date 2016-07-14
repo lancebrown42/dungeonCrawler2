@@ -2,7 +2,7 @@
 <html ng-app="maze">
     <head>
         <meta charset="UTF-8" />
-        <title>hello phaser!</title>
+        <title>Not even a game</title>
         <script type="text/javascript" src="bower_components/angular/angular.js"></script>
     	<!-- <script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.6/angular.js'></script> -->
     	<script type="text/javascript" src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
@@ -13,13 +13,15 @@
 
     <script type="text/javascript" src= "game.js"></script>
     <div ng-controller = "mazeCtrl as mCtrl">
-    	<p>{{mCtrl.map}}</p>
+    	<!-- <p>{{mCtrl.map}}</p> -->
     	<p>{{mCtrl.counter}}</p>
     	<p>{{mCtrl.visited}}</p>
     	<table>
-    		<tr ng-repeat = "row in mCtrl.size">
-    			<td ng-repeat= "tile in mCtrl.size">{{mCtrl.size[tile+row]}}{{tile}}</td>
+    		<tr ng-repeat = "row in mCtrl.gui track by $index">
+    			
+    			<td>{{mCtrl.gui[$index]}}</td>
     		</tr>
+    		
     	</table>
     		
     </div>

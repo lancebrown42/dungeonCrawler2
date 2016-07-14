@@ -2,15 +2,34 @@ angular.module("maze",[])
 	.controller('mazeCtrl',mazeCtrl)
 function mazeCtrl(){
 	mCtrl = this;
+	var mapHeight = 10
+	var mapWidth = 10
 	mCtrl.counter=0
-	mCtrl.map = ['','','','','','','','','','','','','','','',''];
+	mCtrl.map=[];
+	mapGen(mapWidth,mapHeight)
 	mCtrl.size = Math.sqrt(mCtrl.map.length)
+	mCtrl.gui = {}
+	gui()
+	// console.log(mCtrl.gui)
 	var start = locate()
-	var tryHard = 5
+	var tryHard = 50
 	var huntCount = 0
 	mCtrl.map[start] = '*'
 	mCtrl.visited =[]
 	kill(start,move())
+	function mapGen(width,height){
+		for(var i = 0; i<(width*height);i++){
+			mCtrl.map.push("_")
+		}
+
+	}
+	function gui(){
+		for(var i = 0; i<mCtrl.map.length; i+=mapWidth){
+			mCtrl.gui[i/mapWidth] = mCtrl.map.slice(i,i+mapWidth)
+			console.log(mCtrl.map.length/mapHeight)
+			
+		}
+	}
 	function locate(){
 		return (Math.floor(Math.random() * mCtrl.map.length))
 	}
@@ -20,9 +39,7 @@ function mazeCtrl(){
 	}
 	function check(origin,change){
 		if(change == 0){//left
-
 			origin-=1
-			console.log('left')
 
 
 		} else if(change == 1){ //right
@@ -47,6 +64,7 @@ function mazeCtrl(){
 		return origin
 	}
 	function kill(origin,change){
+		console.log("new tile:",check(origin,change))
 		mCtrl.map[check(origin,change)] = '*'
 		mCtrl.visited.push(check(origin,change))
 		// if(checkRand == 0){//left
@@ -75,7 +93,11 @@ function mazeCtrl(){
 		if(huntCount <= tryHard){
 
 			var change = move()
-			if(mCtrl.map[check(index,change)] == '*'||check(index,change)%mCtrl.size==0||!mCtrl.map[check(index,change)]){
+			console.log("Checking change ",change," for index ",index)
+			var newTile = check(index,change)
+			console.log("NewTile =",newTile)
+
+			if(mCtrl.map[newTile] == '*'||newTile%mCtrl.size==0||mCtrl.map[newTile]===undefined||newTile<0){
 				console.log("hunting")
 				var newOrigin = Math.floor(Math.random()*mCtrl.visited.length)
 				huntCount++
@@ -85,8 +107,12 @@ function mazeCtrl(){
 
 			}
 			else {
+				gui()
 				kill(index,change)
 			}
+		}
+		else{
+			console.log("Done!")
 		}
 	}
 }

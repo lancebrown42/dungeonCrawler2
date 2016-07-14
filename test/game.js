@@ -2,18 +2,18 @@ var game = new Phaser.Game(800,600, Phaser.AUTO, '', {preload: preload, create: 
 function preload(){
 	game.load.tilemap()
 	game.load.spritesheet('man','assets/walkcycle/BODY_male.png',64,64)
-    game.load.tilemap('map', 'assets/maps/numbermap.json', null, Phaser.Tilemap.TILED_JSON);
-    game.load.image('Dungeon', 'assets/maps/numbermap.png');
+    // game.load.tilemap('map', 'assets/maps/numbermap.json', null, Phaser.Tilemap.TILED_JSON);
+    // game.load.image('Dungeon', 'assets/maps/numbermap.png');
 
 }
 var map,
 	layer
 function create(){
-	map = game.add.tilemap('map')
-	map.addTilesetImage('numbersheet','Dungeon')
+	// map = game.add.tilemap('map')
+	// map.addTilesetImage('numbersheet','Dungeon')
 	// terrain = map.createLayer('Collision')
-	layer = map.createLayer('Tile Layer 1')
-	layer.resizeWorld();
+	// layer = map.createLayer('Tile Layer 1')
+	// layer.resizeWorld();
 	game.stage.backgroundColor = "#4488AA"
 	man = game.add.sprite(0,0, 'man');
     man.anchor.setTo(0.5, 0.5);
@@ -26,8 +26,8 @@ function create(){
     manimation.add('walkRight',[28,29,30,31,32,33,34,35],20,true)
     manimation.add('walkUp',[1,2,3,4,5,6,7,8],20,true)
     manimation.add('walkDown',[19,20,21,22,23,24,25,26],20,true)
-    console.log(map)
-    console.log(map.tileWidth)
+    // console.log(map)
+    // console.log(map.tileWidth)
 }
 
 function update(){
