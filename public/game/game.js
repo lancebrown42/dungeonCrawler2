@@ -2,18 +2,23 @@ var game = new Phaser.Game(800,600, Phaser.AUTO, '', {preload: preload, create: 
 // var map = new Tilemap(game)
 
 function preload(){
-	// game.load.tilemap('overworld','assets/maps/testmap.json',null, Phaser.Tilemap.TILED_JSON)
+	game.load.tilemap('overworld','assets/maps/test2.json',null, Phaser.Tilemap.TILED_JSON)
 	game.load.spritesheet('man','assets/walkcycle/BODY_male.png',64,64)
 	// game.load.spritesheet('man','assets/BODY_male_left.png',64,64,9)
-	// game.load.image('tiles','assets/testmap.png')
+	game.load.image('tiles','assets/maps/test2.png')
 
 }
 function create(){
 	game.stage.backgroundColor = "#4488AA"
-	// map = game.add.tilemap("overworld")
-	// map.addTilesetImage("Dungeon","tiles")
-	// layer = map.createLayer("Tile Layer 1")
-	// layer.resizeWorld();
+	var map = game.add.tilemap("overworld")
+	map.addTilesetImage("Dungeon","tiles")
+	var layer = map.createLayer('Ground');
+    var terrain = map.createLayer('Terrain');
+    map.setCollisionBetween(1, 4000, true, 'Terrain');
+
+	// layer = map.createLayer("Ground")
+	// terrain = map.createLayer("Terrain")
+	layer.resizeWorld();
 	// man = game.add.sprite(game.world.centerX, game.world.centerY, 'man');
 	man = game.add.sprite(0,0, 'man');
 	// game.physics.startSystem(Phaser.Physics.P2JS)
