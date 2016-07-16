@@ -16,10 +16,13 @@ app.use(express.static(__dirname + '/public'));
 
 
 app.get('/', function(req, res){
-  res.sendFile('home.html', {root : './public'})
+  res.sendFile('index.html', {root : './public'})
 });
+app.get('/game', function(req,res){
+  res.sendFile('html/game.html')
+})
 // Creating Server and Listening for Connections \\
-var port = process.env.PORT || 3000
+var port = process.env.PORT || 80
 app.listen(port, function(){
   console.log('Server running on port ' + port);
 
