@@ -5,7 +5,7 @@ function preload(){
 	this.game.load.tilemap('overworld','assets/maps/newMap.json',null, Phaser.Tilemap.TILED_JSON)
 	this.game.load.spritesheet('man','assets/walkcycle/BODY_male.png',64,64)
 	// game.load.spritesheet('man','assets/BODY_male_left.png',64,64,9)
-	this.game.load.image('tiles','assets/maps/newMap.png')
+	this.game.load.image('tiles','assets/maps/spritesheet.png')
 
 }
 function create(){
@@ -13,9 +13,10 @@ function create(){
 	var map = this.game.add.tilemap("overworld")
 	map.addTilesetImage("spritesheet","tiles")
 	this.game.layer = map.createLayer('Ground');
-    this.game.terrain = map.createLayer('Terrain');
+	this.game.terrain = map.createLayer('Terrain');
+    // this.game.terrain = map.createLayer('Terrain');
     // this.game.obj = map.createLayer('Object Layer 1')
-    // map.setCollisionBetween(1, 4000, true, 'Terrain');
+    map.setCollisionBetween(1, 4000, true, 'Terrain');
 
 	// layer = map.createLayer("Ground")
 	// terrain = map.createLayer("Terrain")

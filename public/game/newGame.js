@@ -6,6 +6,7 @@ var PhaserGame = function(game){
 	this.man = null
 	this.manimation = null
 }
+
 PhaserGame.prototype = {
 	 init: function () {
 
@@ -15,23 +16,25 @@ PhaserGame.prototype = {
 
         preload: function () {
         	this.load.tilemap('map', 'assets/maps/newMap.json', null, Phaser.Tilemap.TILED_JSON);
-            this.load.image('tiles', 'assets/maps/newMap.bmp');
+            this.load.image('tiles', 'assets/maps/spritesheet.png');
             this.load.spritesheet('man', 'assets/walkcycle/BODY_male.png',64,64);
 		},
 		create: function () {
+			// this.add.tileSprite(0,0,1024,1024,'tiles')
 
             this.map = this.add.tilemap('map');
             this.map.addTilesetImage('spritesheet', 'tiles');
 
             this.layer = this.map.createLayer('Ground');
-            this.layer = this.map.createLayer('Terrain');
+            this.terrain = this.map.createLayer('Terrain');
 
-            // this.map.setCollision(20, true, this.layer);
+            this.map.setCollision(20, true, this.terrain);
 
             this.man = this.add.sprite(10, 10, 'man');
             this.man.anchor.set(0.5,0.5);
 
             this.physics.arcade.enable(this.man);
+            this.physics.arcade.collide(this.man, this.terrain)
 
             this.manimation = this.man.animations
 		    this.manimation.add('walkLeft',[10,11,12,13,14,15,16,17],20,true)
