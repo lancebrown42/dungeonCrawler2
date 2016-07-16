@@ -9,6 +9,9 @@ function preload(){
 
 }
 function create(){
+	//*****************************************************************
+	//load in the map
+	//*****************************************************************
 	this.stage.backgroundColor = "#4488AA"
 	var map = this.game.add.tilemap("overworld")
 	map.addTilesetImage("Dungeon","tiles")
@@ -17,23 +20,37 @@ function create(){
 	// console.log(this.terrain)
     // this.game.terrain = map.createLayer('Terrain');
     // this.game.obj = map.createLayer('Object Layer 1')
-    map.setCollisionBetween(1,4000);
+    //map.setCollisionBetween(1,4000);
+    
     // this.terrain.debug = true
+
+    //*****************************************************************
+    //Load in player model
+    //*****************************************************************
+
+	man = this.add.sprite(0,0, 'man');
+    man.anchor.setTo(0.5, 0.5);
+    man.scale.setTo(0.5,0.5);
 
 	// layer = map.createLayer("Ground")
 	// terrain = map.createLayer("Terrain")
 	this.layer.resizeWorld();
 	// man = game.add.sprite(game.world.centerX, game.world.centerY, 'man');
-	man = this.add.sprite(0,0, 'man');
 	this.physics.startSystem(Phaser.Physics.P2JS)
     this.physics.p2.convertTilemap(map, this.terrain);
     console.log(this.physics.p2.convertTilemap(map, this.terrain))
+    
+
     this.physics.p2.setImpactEvents(true);
 	this.physics.p2.enable(man)
 	// var playerCollisionGroup = this.physics.p2.createCollisionGroup();
- //    var terrainCollisionGroup = this.physics.p2.createCollisionGroup();
+	// var terrainCollisionGroup = this.physics.p2.createCollisionGroup();
     // this.physics.p2.updateBoundsCollisionGroup();
-    man.anchor.setTo(0.5, 0.5);
+
+    //*****************************************************************
+    //camera setup
+    //*****************************************************************
+
     this.camera.setBoundsToWorld()
     this.camera.setSize(800,600)
     this.camera.follow(man)
@@ -47,7 +64,9 @@ function create(){
     man.body.collideWorldBounds = true
     man.body.setZeroDamping();
 	man.body.fixedRotation = true;
-    man.scale.setTo(0.5,0.5);
+	//*****************************************************************
+	//animate the player
+	//*****************************************************************
     manimation = man.animations
     manimation.add('walkLeft',[10,11,12,13,14,15,16,17],20,true)
     manimation.add('walkRight',[28,29,30,31,32,33,34,35],20,true)
