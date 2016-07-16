@@ -8,19 +8,34 @@ function preload(){
 	this.load.image('tiles','assets/maps/DungeonCrawl_ProjectUtumnoTileset.png')
 
 }
+var map,
+	man,
+	walls,
+	cursors
+
 function create(){
+	//*****************************************************************
+	//start P2
+	//*****************************************************************
+
+	this.physics.startSystem(Phaser.Physics.P2JS)
+
 	//*****************************************************************
 	//load in the map
 	//*****************************************************************
+
 	this.stage.backgroundColor = "#4488AA"
-	var map = this.game.add.tilemap("overworld")
+	map = this.game.add.tilemap("overworld")
 	map.addTilesetImage("Dungeon","tiles")
 	this.layer = map.createLayer('Ground');
 	this.terrain = map.createLayer('Collision');
+	this.layer.resizeWorld();
 	// console.log(this.terrain)
     // this.game.terrain = map.createLayer('Terrain');
     // this.game.obj = map.createLayer('Object Layer 1')
-    //map.setCollisionBetween(1,4000);
+    map.setCollisionBetween(900,1200);
+    this.physics.p2.convertTilemap(map, this.terrain);
+    // console.log(this.physics.p2.convertTilemap(map, this.terrain))
     
     // this.terrain.debug = true
 
@@ -28,21 +43,17 @@ function create(){
     //Load in player model
     //*****************************************************************
 
-	man = this.add.sprite(0,0, 'man');
-    man.anchor.setTo(0.5, 0.5);
+	man = this.add.sprite(50,50, 'man');
+	this.physics.p2.enable(man)
+    // man.anchor.setTo(0.5, 0.5);
     man.scale.setTo(0.5,0.5);
 
 	// layer = map.createLayer("Ground")
 	// terrain = map.createLayer("Terrain")
-	this.layer.resizeWorld();
 	// man = game.add.sprite(game.world.centerX, game.world.centerY, 'man');
-	this.physics.startSystem(Phaser.Physics.P2JS)
-    this.physics.p2.convertTilemap(map, this.terrain);
-    console.log(this.physics.p2.convertTilemap(map, this.terrain))
     
 
     this.physics.p2.setImpactEvents(true);
-	this.physics.p2.enable(man)
 	// var playerCollisionGroup = this.physics.p2.createCollisionGroup();
 	// var terrainCollisionGroup = this.physics.p2.createCollisionGroup();
     // this.physics.p2.updateBoundsCollisionGroup();
@@ -54,7 +65,7 @@ function create(){
     this.camera.setBoundsToWorld()
     this.camera.setSize(800,600)
     this.camera.follow(man)
-    var walls = game.add.group()
+    walls = game.add.group()
     man.enableBody = true
     walls.enableBody = true
     walls.physicsBodyType = Phaser.Physics.P2JS;
@@ -62,7 +73,7 @@ function create(){
     // this.physics.arcade.collide(man, this.terrain,collisionHandler)
     this.physics.p2.setBoundsToWorld(true, true, true, true, false);
     man.body.collideWorldBounds = true
-    man.body.setZeroDamping();
+    // man.body.setZeroDamping();
 	man.body.fixedRotation = true;
 	//*****************************************************************
 	//animate the player
