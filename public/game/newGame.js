@@ -28,7 +28,7 @@ PhaserGame.prototype = {
             this.layer = this.map.createLayer('Ground');
             this.terrain = this.map.createLayer('Terrain');
 
-            this.map.setCollision(20, true, this.terrain);
+            this.man.setCollision(20, true, this.terrain);
 
             this.man = this.add.sprite(10, 10, 'man');
             this.man.anchor.set(0.5,0.5);
