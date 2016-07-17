@@ -13,7 +13,13 @@ var map,
 	walls,
 	cursors,
 	layer,
-	terrain
+	terrain,
+	keyUp,
+	keyDown,
+	keyLeft,
+	keyRight,
+	keyAttack
+	
 
 function create(){
 	//*****************************************************************
@@ -59,7 +65,8 @@ function create(){
 	// var playerCollisionGroup = this.physics.p2.createCollisionGroup();
 	// var terrainCollisionGroup = this.physics.p2.createCollisionGroup();
     // this.physics.p2.updateBoundsCollisionGroup();
-    game.physics.enable( [ man, terrain ], Phaser.Physics.ARCADE);
+    game.physics.arcade.enable(man)
+    
 
     //*****************************************************************
     //camera setup
@@ -86,7 +93,12 @@ function create(){
     manimation.add('walkRight',[28,29,30,31,32,33,34,35],20,true)
     manimation.add('walkUp',[1,2,3,4,5,6,7,8],20,true)
     manimation.add('walkDown',[19,20,21,22,23,24,25,26],20,true)
-    cursors = game.input.keyboard.createCursorKeys();
+    keyUp     = game.input.keyboard.addKey(Phaser.Keyboard.W)
+    keyDown   = game.input.keyboard.addKey(Phaser.Keyboard.S)
+    keyLeft   = game.input.keyboard.addKey(Phaser.Keyboard.A)
+    keyRight  = game.input.keyboard.addKey(Phaser.Keyboard.D)
+    keyAttack = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
+    // cursors   = game.input.keyboard.createCursorKeys();
     
 }
 function update(){
@@ -113,7 +125,7 @@ function update(){
  //    	man.body.moveDown(400);
  //    	manimation.play('walkDown',10,false)
  //    }
- game.physics.arcade.collide(man, game.terrain);
+ game.physics.arcade.collide(man, terrain);
 
     player.body.velocity.x = 0;
 
