@@ -19,7 +19,7 @@ app.get('/', function(req, res){
   res.sendFile('index.html', {root : './public'})
 });
 app.get('/game', function(req,res){
-  res.sendFile('html/game.html',{root: './public'})
+  res.sendFile('game.html',{root: './public'})
 })
 // Creating Server and Listening for Connections \\
 var port = process.env.PORT || 3000
