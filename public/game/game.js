@@ -15,10 +15,10 @@ var map,
 
 function create(){
 	//*****************************************************************
-	//start P2
+	//start Arcade
 	//*****************************************************************
 
-	this.physics.startSystem(Phaser.Physics.P2JS)
+	this.physics.startSystem(Phaser.Physics.ARCADE);
 
 	//*****************************************************************
 	//load in the map
@@ -33,8 +33,8 @@ function create(){
 	// console.log(this.terrain)
     // this.game.terrain = map.createLayer('Terrain');
     // this.game.obj = map.createLayer('Object Layer 1')
-    map.setCollisionBetween(900,1200);
-    this.physics.p2.convertTilemap(map, this.terrain);
+    // map.setCollisionBetween(900,1200);
+    // this.physics.p2.convertTilemap(map, this.terrain);
     // console.log(this.physics.p2.convertTilemap(map, this.terrain))
     
     // this.terrain.debug = true
@@ -44,7 +44,7 @@ function create(){
     //*****************************************************************
 
 	man = this.add.sprite(50,50, 'man');
-	this.physics.p2.enable(man)
+	// this.physics.p2.enable(man)
     // man.anchor.setTo(0.5, 0.5);
     man.scale.setTo(0.5,0.5);
 
@@ -53,10 +53,11 @@ function create(){
 	// man = game.add.sprite(game.world.centerX, game.world.centerY, 'man');
     
 
-    this.physics.p2.setImpactEvents(true);
+    // this.physics.p2.setImpactEvents(true);
 	// var playerCollisionGroup = this.physics.p2.createCollisionGroup();
 	// var terrainCollisionGroup = this.physics.p2.createCollisionGroup();
     // this.physics.p2.updateBoundsCollisionGroup();
+    game.physics.enable( [ man, this.terrain ], Phaser.Physics.ARCADE);
 
     //*****************************************************************
     //camera setup
@@ -65,16 +66,16 @@ function create(){
     this.camera.setBoundsToWorld()
     this.camera.setSize(800,600)
     this.camera.follow(man)
-    walls = game.add.group()
-    man.enableBody = true
-    walls.enableBody = true
-    walls.physicsBodyType = Phaser.Physics.P2JS;
+    // walls = game.add.group()
+    // man.enableBody = true
+    // walls.enableBody = true
+    // walls.physicsBodyType = Phaser.Physics.P2JS;
     // this.physics.enable([man,this.terrain],Phaser.Physics.ARCADE)
     // this.physics.arcade.collide(man, this.terrain,collisionHandler)
-    this.physics.p2.setBoundsToWorld(true, true, true, true, false);
+    // this.physics.p2.setBoundsToWorld(true, true, true, true, false);
     man.body.collideWorldBounds = true
     // man.body.setZeroDamping();
-	man.body.fixedRotation = true;
+	// man.body.fixedRotation = true;
 	//*****************************************************************
 	//animate the player
 	//*****************************************************************
@@ -87,28 +88,70 @@ function create(){
     
 }
 function update(){
-	man.body.setZeroVelocity();
-	game.input.keyboard.addCallbacks(Phaser.Keyboard.UP,null,function(){manimation.stop(true)},null)
-	 if (cursors.left.isDown)
+	// man.body.setZeroVelocity();
+	// game.input.keyboard.addCallbacks(Phaser.Keyboard.UP,null,function(){manimation.stop(true)},null)
+	//  if (cursors.left.isDown)
+ //    {
+ //    	man.body.moveLeft(400);
+ //    	manimation.play('walkLeft',10,false)
+ //    }
+ //    else if (cursors.right.isDown)
+ //    {
+ //    	man.body.moveRight(400);
+ //    	manimation.play('walkRight',10,false)
+ //    }
+
+ //    if (cursors.up.isDown)
+ //    {
+ //    	man.body.moveUp(400);
+ //    	manimation.play('walkUp',10,false)
+ //    }
+ //    else if (cursors.down.isDown)
+ //    {
+ //    	man.body.moveDown(400);
+ //    	manimation.play('walkDown',10,false)
+ //    }
+ game.physics.arcade.collide(man, game.terrain);
+
+    player.body.velocity.x = 0;
+
+    if (cursors.left.isDown)
     {
-    	man.body.moveLeft(400);
-    	manimation.play('walkLeft',10,false)
+        player.body.velocity.x = -150;
+
+        if (facing != 'walkleft')
+        {
+            player.animations.play('left');
+            facing = 'left';
+        }
     }
     else if (cursors.right.isDown)
     {
-    	man.body.moveRight(400);
-    	manimation.play('walkRight',10,false)
-    }
+        player.body.velocity.x = 150;
 
-    if (cursors.up.isDown)
-    {
-    	man.body.moveUp(400);
-    	manimation.play('walkUp',10,false)
+        if (facing != 'right')
+        {
+            player.animations.play('right');
+            facing = 'right';
+        }
     }
-    else if (cursors.down.isDown)
+    else
     {
-    	man.body.moveDown(400);
-    	manimation.play('walkDown',10,false)
+        if (facing != 'idle')
+        {
+            player.animations.stop();
+
+            if (facing == 'left')
+            {
+                player.frame = 0;
+            }
+            else
+            {
+                player.frame = 5;
+            }
+
+            facing = 'idle';
+        }
     }
 	// if (this.input.keyboard.isDown(Phaser.Keyboard.LEFT))
  //    {
