@@ -16,11 +16,9 @@ app.use(express.static(__dirname + '/public'));
 
 
 app.get('/', function(req, res){
-  res.sendFile('index.html', {root : './public'})
+  res.sendFile('index.html')
 });
-app.get('/game', function(req,res){
-  res.sendFile('game.html',{root: './public'})
-})
+
 // Creating Server and Listening for Connections \\
 var port = process.env.PORT || 3000
 app.listen(port, function(){
