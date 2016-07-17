@@ -148,8 +148,9 @@ function update(){
         man.animations.play('walkUp',10,false)
         
     }
-    if (keyAct.isDown){
-    	console.log("EEEEEEEEE")
+    if (keyAct.isDown && man.body.blocked.down == true){
+        
+    	console.log(man)
     }
     else if(keyAttack.isDown){
     	console.log("killlll")
