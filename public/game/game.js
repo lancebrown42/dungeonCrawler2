@@ -1,35 +1,37 @@
 var game = new Phaser.Game(800,600, Phaser.AUTO, '', {preload: preload, create: create, update: update, render: render})
-// var map = new Tilemap(game)
+
 
 function preload(){
-	this.load.tilemap('overworld','assets/maps/testmap.json',null, Phaser.Tilemap.TILED_JSON)
-	this.load.spritesheet('man','assets/walkcycle/BODY_male.png',64,64)
+	game.load.tilemap('overworld','assets/maps/testmap.json',null, Phaser.Tilemap.TILED_JSON)
+	game.load.spritesheet('man','assets/walkcycle/BODY_male.png',64,64)
 	// game.load.spritesheet('man','assets/BODY_male_left.png',64,64,9)
-	this.load.image('tiles','assets/maps/DungeonCrawl_ProjectUtumnoTileset.png')
+	game.load.image('tiles','assets/maps/DungeonCrawl_ProjectUtumnoTileset.png')
 
 }
 var map,
 	man,
 	walls,
-	cursors
+	cursors,
+	layer,
+	terrain
 
 function create(){
 	//*****************************************************************
 	//start Arcade
 	//*****************************************************************
 
-	this.physics.startSystem(Phaser.Physics.ARCADE);
+	game.physics.startSystem(Phaser.Physics.ARCADE);
 
 	//*****************************************************************
 	//load in the map
 	//*****************************************************************
 
-	this.stage.backgroundColor = "#4488AA"
+	game.stage.backgroundColor = "#4488AA"
 	map = this.game.add.tilemap("overworld")
 	map.addTilesetImage("Dungeon","tiles")
-	this.layer = map.createLayer('Ground');
-	this.terrain = map.createLayer('Collision');
-	this.layer.resizeWorld();
+	layer = map.createLayer('Ground');
+	terrain = map.createLayer('Collision');
+	layer.resizeWorld();
 	// console.log(this.terrain)
     // this.game.terrain = map.createLayer('Terrain');
     // this.game.obj = map.createLayer('Object Layer 1')
@@ -43,7 +45,7 @@ function create(){
     //Load in player model
     //*****************************************************************
 
-	man = this.add.sprite(50,50, 'man');
+	man = game.add.sprite(50,50, 'man');
 	// this.physics.p2.enable(man)
     // man.anchor.setTo(0.5, 0.5);
     man.scale.setTo(0.5,0.5);
@@ -57,21 +59,21 @@ function create(){
 	// var playerCollisionGroup = this.physics.p2.createCollisionGroup();
 	// var terrainCollisionGroup = this.physics.p2.createCollisionGroup();
     // this.physics.p2.updateBoundsCollisionGroup();
-    game.physics.enable( [ man, this.terrain ], Phaser.Physics.ARCADE);
+    game.physics.enable( [ man, terrain ], Phaser.Physics.ARCADE);
 
     //*****************************************************************
     //camera setup
     //*****************************************************************
 
-    this.camera.setBoundsToWorld()
-    this.camera.setSize(800,600)
-    this.camera.follow(man)
+    game.camera.setBoundsToWorld()
+    game.camera.setSize(800,600)
+    game.camera.follow(man)
     // walls = game.add.group()
     // man.enableBody = true
     // walls.enableBody = true
     // walls.physicsBodyType = Phaser.Physics.P2JS;
     // this.physics.enable([man,this.terrain],Phaser.Physics.ARCADE)
-    // this.physics.arcade.collide(man, this.terrain,collisionHandler)
+    map.setCollisionBetween(1, 4000, true, terrain)
     // this.physics.p2.setBoundsToWorld(true, true, true, true, false);
     man.body.collideWorldBounds = true
     // man.body.setZeroDamping();
@@ -84,7 +86,7 @@ function create(){
     manimation.add('walkRight',[28,29,30,31,32,33,34,35],20,true)
     manimation.add('walkUp',[1,2,3,4,5,6,7,8],20,true)
     manimation.add('walkDown',[19,20,21,22,23,24,25,26],20,true)
-    cursors = this.input.keyboard.createCursorKeys();
+    cursors = game.input.keyboard.createCursorKeys();
     
 }
 function update(){
