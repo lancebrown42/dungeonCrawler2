@@ -98,7 +98,7 @@ function create(){
     keyLeft   = game.input.keyboard.addKey(Phaser.Keyboard.A)
     keyRight  = game.input.keyboard.addKey(Phaser.Keyboard.D)
     keyAttack = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
-    // cursors   = game.input.keyboard.createCursorKeys();
+    cursors   = game.input.keyboard.createCursorKeys();
     
 }
 function update(){
@@ -127,46 +127,64 @@ function update(){
  //    }
  game.physics.arcade.collide(man, terrain);
 
-    player.body.velocity.x = 0;
-
-    if (cursors.left.isDown)
-    {
-        player.body.velocity.x = -150;
-
-        if (facing != 'walkleft')
-        {
-            player.animations.play('left');
-            facing = 'left';
-        }
+    man.body.velocity.x = 0;
+    man.body.velocity.y = 0;
+    if (keyLeft.isDown) {
+        man.body.velocity.x = -225
+        man.animations.play('walkLeft',10,false)
     }
-    else if (cursors.right.isDown)
-    {
-        player.body.velocity.x = 150;
-
-        if (facing != 'right')
-        {
-            player.animations.play('right');
-            facing = 'right';
-        }
+    else if (keyRight.isDown) {
+        man.body.velocity.x = 225
+        man.animations.play('walkRight',10,false)
     }
-    else
-    {
-        if (facing != 'idle')
-        {
-            player.animations.stop();
-
-            if (facing == 'left')
-            {
-                player.frame = 0;
-            }
-            else
-            {
-                player.frame = 5;
-            }
-
-            facing = 'idle';
-        }
+    else if (keyDown.isDown){
+        man.body.velocity.y = 225
+        man.animations.play('walkDown',10,false)
     }
+    else if (keyUp.isDown){
+        man.body.velocity.y = -225
+        man.animations.play('walkUp',10,false)
+        
+    }
+
+    // if (cursors.left.isDown)
+    // {
+    //     man.body.velocity.x = -150;
+
+    //     if (facing != 'walkleft')
+    //     {
+    //         man.animations.play('left');
+    //         facing = 'left';
+    //     }
+    // }
+    // else if (cursors.right.isDown)
+    // {
+    //     man.body.velocity.x = 150;
+
+    //     if (facing != 'right')
+    //     {
+    //         man.animations.play('right');
+    //         facing = 'right';
+    //     }
+    // }
+    // else
+    // {
+    //     if (facing != 'idle')
+    //     {
+    //         man.animations.stop();
+
+    //         if (facing == 'left')
+    //         {
+    //             man.frame = 0;
+    //         }
+    //         else
+    //         {
+    //             man.frame = 5;
+    //         }
+
+    //         facing = 'idle';
+    //     }
+    // }
 	// if (this.input.keyboard.isDown(Phaser.Keyboard.LEFT))
  //    {
  //        man.x -= 2;
