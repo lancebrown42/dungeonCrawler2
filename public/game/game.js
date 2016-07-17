@@ -18,7 +18,8 @@ var map,
 	keyDown,
 	keyLeft,
 	keyRight,
-	keyAttack
+	keyAttack,
+	keyAct
 	
 
 function create(){
@@ -98,12 +99,13 @@ function create(){
     keyLeft   = game.input.keyboard.addKey(Phaser.Keyboard.A)
     keyRight  = game.input.keyboard.addKey(Phaser.Keyboard.D)
     keyAttack = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
+    keyAct 	  = game.input.keyboard.addKey(Phaser.Keyboard.E)
     cursors   = game.input.keyboard.createCursorKeys();
     
 }
 function update(){
 	// man.body.setZeroVelocity();
-	// game.input.keyboard.addCallbacks(Phaser.Keyboard.UP,null,function(){manimation.stop(true)},null)
+	game.input.keyboard.addCallbacks(Phaser.Keyboard.UP,null,function(){manimation.stop(true)},null)
 	//  if (cursors.left.isDown)
  //    {
  //    	man.body.moveLeft(400);
@@ -145,6 +147,12 @@ function update(){
         man.body.velocity.y = -225
         man.animations.play('walkUp',10,false)
         
+    }
+    if (keyAct.isDown){
+    	console.log("EEEEEEEEE")
+    }
+    else if(keyAttack.isDown){
+    	console.log("killlll")
     }
 
     // if (cursors.left.isDown)
