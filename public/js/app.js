@@ -11,7 +11,7 @@ function configRouter($stateProvider, $urlRouterProvider){
         })
         .state('game', {
             url : '/game',
-            templateUrl : 'partials/game.html',
+            templateUrl : '/partials/game.html',
             // controller : 'gameController as gCtrl'
         })
 }
