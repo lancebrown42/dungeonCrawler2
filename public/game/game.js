@@ -37,7 +37,9 @@ var map,
     helm,
     shoes,
     chest,
-    pants
+    pants,
+    healthbar,
+    x
 
 
 function create() {
@@ -84,22 +86,41 @@ function create() {
 
     man = game.add.sprite(50, 50, 'man');
     man.inventory = { "armor": "leather", "weapon": "", "gold": "0" }
-    man.health = 100
+    man.hp = 100
     man.totalhp = 100
     man.strength = 10
     man.alive = true
         //*****************************************************************
-    helm = game.add.sprite(man.position.x, man.position.y, man.inventory.armor + 'Helm');
-    shoes = game.add.sprite(man.position.x, man.position.y, man.inventory.armor + 'Shoes');
-    chest = game.add.sprite(man.position.x, man.position.y, man.inventory.armor + 'Chest');
-    pants = game.add.sprite(man.position.x, man.position.y, man.inventory.armor + 'Pants');
+    helm = game.add.sprite(0,0, man.inventory.armor + 'Helm');
+    shoes = game.add.sprite(0,0,man.inventory.armor + 'Shoes');
+    chest = game.add.sprite(0,0, man.inventory.armor + 'Chest');
+    pants = game.add.sprite(0,0, man.inventory.armor + 'Pants');
+    man.addChild(helm)
+    man.addChild(shoes)
+    man.addChild(pants)
+    man.addChild(chest)
     man.scale.setTo(0.5, 0.5);
-    helm.scale.setTo(0.5, 0.5)
-    shoes.scale.setTo(0.5, 0.5)
-    chest.scale.setTo(0.5, 0.5)
-    pants.scale.setTo(0.5, 0.5)
-        // clothing()
-        //*******************************************************************
+    // helm.scale.setTo(0.5, 0.5)
+    // shoes.scale.setTo(0.5, 0.5)
+    // chest.scale.setTo(0.5, 0.5)
+    // pants.scale.setTo(0.5, 0.5)
+    // clothing()
+    //*******************************************************************
+    x = man.hp/man.totalhp
+    deathbar = game.add.graphics(0,0)
+	healthbar = game.add.graphics(0,0)
+
+	deathbar.lineStyle(2,"fff",1)
+	healthbar.clear()
+	healthbar.lineStyle(2,"fff",1)
+
+	deathbar.beginFill(0xFF0000)
+	healthbar.beginFill(0x00FF00)
+	deathbar.drawRoundedRect(man.position.x-36,man.position.y-50,32,10,5)
+	healthbar.drawRoundedRect(man.position.x - 36, man.position.y - 50, 32*x, 10, 5)
+	man.addChild(deathbar)
+	man.addChild(healthbar)
+
 
     // layer = map.createLayer("Ground")
     // terrain = map.createLayer("Terrain")
@@ -111,14 +132,14 @@ function create() {
     // var terrainCollisionGroup = this.physics.p2.createCollisionGroup();
     // this.physics.p2.updateBoundsCollisionGroup();
     game.physics.arcade.enable(man)
-    game.physics.arcade.enable(helm)
-    game.physics.arcade.enable(shoes)
-    game.physics.arcade.enable(chest)
-    game.physics.arcade.enable(pants)
-    helm.enableBody = true
-    pants.enableBody = true
-    chest.enableBody = true
-    shoes.enableBody = true
+    // game.physics.arcade.enable(helm)
+    // game.physics.arcade.enable(shoes)
+    // game.physics.arcade.enable(chest)
+    // game.physics.arcade.enable(pants)
+    // helm.enableBody = true
+    // pants.enableBody = true
+    // chest.enableBody = true
+    // shoes.enableBody = true
 
 
     //*****************************************************************
@@ -137,10 +158,10 @@ function create() {
 
     // this.physics.p2.setBoundsToWorld(true, true, true, true, false);
     man.body.collideWorldBounds = true
-    helm.body.collideWorldBounds = true
-    shoes.body.collideWorldBounds = true
-    chest.body.collideWorldBounds = true
-    pants.body.collideWorldBounds = true
+    // helm.body.collideWorldBounds = true
+    // shoes.body.collideWorldBounds = true
+    // chest.body.collideWorldBounds = true
+    // pants.body.collideWorldBounds = true
         // man.body.setZeroDamping();
         // man.body.fixedRotation = true;
         //*****************************************************************
@@ -201,7 +222,7 @@ function update() {
     // healthbar.lineStyle(5,1)
 
 
-    
+
     
     //  if (cursors.left.isDown)
     //    {
@@ -226,10 +247,10 @@ function update() {
     //    }
     // clothing()
     game.physics.arcade.collide(man, terrain);
-    game.physics.arcade.collide(helm, terrain);
-    game.physics.arcade.collide(pants, terrain);
-    game.physics.arcade.collide(chest, terrain);
-    game.physics.arcade.collide(shoes, terrain);
+    // game.physics.arcade.collide(helm, terrain);
+    // game.physics.arcade.collide(pants, terrain);
+    // game.physics.arcade.collide(chest, terrain);
+    // game.physics.arcade.collide(shoes, terrain);
     if (keyAct.isDown) {
         if (weapons.children[0]) {
             for (weapon in weapons.children) {
@@ -248,59 +269,59 @@ function update() {
     }
     man.body.velocity.x = 0;
     man.body.velocity.y = 0;
-    helm.body.velocity.x = 0;
-    helm.body.velocity.y = 0;
-    pants.body.velocity.x = 0;
-    pants.body.velocity.y = 0;
-    shoes.body.velocity.x = 0;
-    shoes.body.velocity.y = 0;
-    chest.body.velocity.x = 0;
-    chest.body.velocity.y = 0;
+    // helm.body.velocity.x = 0;
+    // helm.body.velocity.y = 0;
+    // pants.body.velocity.x = 0;
+    // pants.body.velocity.y = 0;
+    // shoes.body.velocity.x = 0;
+    // shoes.body.velocity.y = 0;
+    // chest.body.velocity.x = 0;
+    // chest.body.velocity.y = 0;
 
     if (keyLeft.isDown) {
         man.body.velocity.x = -225
         man.animations.play('walkLeft', 10, false)
-        helm.body.velocity.x = -225
+        // helm.body.velocity.x = -225
         helm.animations.play('walkLeft', 10, false)
-        shoes.body.velocity.x = -225
+        // shoes.body.velocity.x = -225
         shoes.animations.play('walkLeft', 10, false)
-        pants.body.velocity.x = -225
+        // pants.body.velocity.x = -225
         pants.animations.play('walkLeft', 10, false)
-        chest.body.velocity.x = -225
+        // chest.body.velocity.x = -225
         chest.animations.play('walkLeft', 10, false)
 
     } else if (keyRight.isDown) {
         man.body.velocity.x = 225
         man.animations.play('walkRight', 10, false)
-        helm.body.velocity.x = 225
+        // helm.body.velocity.x = 225
         helm.animations.play('walkRight', 10, false)
-        shoes.body.velocity.x = 225
+        // shoes.body.velocity.x = 225
         shoes.animations.play('walkRight', 10, false)
-        pants.body.velocity.x = 225
+        // pants.body.velocity.x = 225
         pants.animations.play('walkRight', 10, false)
-        chest.body.velocity.x = 225
+        // chest.body.velocity.x = 225
         chest.animations.play('walkRight', 10, false)
     } else if (keyDown.isDown) {
         man.body.velocity.y = 225
         man.animations.play('walkDown', 10, false)
-        helm.body.velocity.y = 225
+        // helm.body.velocity.y = 225
         helm.animations.play('walkDown', 10, false)
-        shoes.body.velocity.y = 225
+        // shoes.body.velocity.y = 225
         shoes.animations.play('walkDown', 10, false)
-        pants.body.velocity.y = 225
+        // pants.body.velocity.y = 225
         pants.animations.play('walkDown', 10, false)
-        chest.body.velocity.y = 225
+        // chest.body.velocity.y = 225
         chest.animations.play('walkDown', 10, false)
     } else if (keyUp.isDown) {
         man.body.velocity.y = -225
         man.animations.play('walkUp', 10, false)
-        helm.body.velocity.y = -225
+        // helm.body.velocity.y = -225
         helm.animations.play('walkUp', 10, false)
-        shoes.body.velocity.y = -225
+        // shoes.body.velocity.y = -225
         shoes.animations.play('walkUp', 10, false)
-        pants.body.velocity.y = -225
+        // pants.body.velocity.y = -225
         pants.animations.play('walkUp', 10, false)
-        chest.body.velocity.y = -225
+        // chest.body.velocity.y = -225
         chest.animations.play('walkUp', 10, false)
 
     }
@@ -323,10 +344,12 @@ function update() {
 
         }
     } else if (keyAttack.isDown) {
-
-        console.log(man.health)
+    	man.hp --
+        console.log(man.hp)
+        healthbar.updateCache()
+        healthbar.update()
     }
-    if (man.health <= 0) {
+    if (man.hp <= 0) {
         man.alive = false
         death(man)
     }
@@ -359,32 +382,6 @@ function changeClothes() {
     chest.loadTexture(man.inventory.armor + 'Chest')
     pants.loadTexture(man.inventory.armor + 'Pants')
 
-    // helm = game.add.sprite(man.position.x,man.position.y,man.inventory.armor + 'Helm')
-    // shoes = game.add.sprite(man.position.x,man.position.y,man.inventory.armor+'Shoes')
-    // chest = game.add.sprite(man.position.x,man.position.y,man.inventory.armor+'Chest')
-    // pants = game.add.sprite(man.position.x,man.position.y,man.inventory.armor+'Pants')
-    //    man.scale.setTo(0.5,0.5);
-    //    helm.scale.setTo(0.5,0.5)
-    //    shoes.scale.setTo(0.5,0.5)
-    //    chest.scale.setTo(0.5,0.5)
-    //    pants.scale.setTo(0.5,0.5)
-    //    game.physics.arcade.enable(man)
-    //    game.physics.arcade.enable(helm)
-    //    game.physics.arcade.enable(shoes)
-    //    game.physics.arcade.enable(chest)
-    //    game.physics.arcade.enable(pants)
-    //    helm.enableBody = true
-    // pants.enableBody = true
-    // chest.enableBody = true
-    // shoes.enableBody = true
-    // helm.body.velocity.x = 0;
-    //    helm.body.velocity.y = 0;
-    // pants.body.velocity.x = 0;
-    // pants.body.velocity.y = 0;
-    // shoes.body.velocity.x = 0;
-    // shoes.body.velocity.y = 0;
-    // chest.body.velocity.x = 0;
-    // chest.body.velocity.y = 0;
 }
 
 function render() {
@@ -393,7 +390,11 @@ function render() {
     game.debug.cameraInfo(game.camera, 32, 500)
 
 }
+function death(player){
+    man.body.moves = false
 
+
+}
 function collisionHandler(obj1, obj2) {
     console.log('Collision between ', obj1, ' and ', obj2)
 }
