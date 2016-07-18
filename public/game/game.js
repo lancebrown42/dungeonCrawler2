@@ -18,7 +18,7 @@ function preload(){
 	game.load.image('closedDoor','assets/item_sprites/closedDoor.png')
 	game.load.image('bow','assets/item_sprites/bow.png')
 	game.load.image('sword','assets/item_sprites/sword.png')
-	game.load.image('steelChest','assets/item_sprites/steelChest.png')
+	game.load.image('plate','assets/item_sprites/steelChest.png')
 	game.load.spritesheet('sprites','assets/maps/DungeonCrawl_ProjectUtumnoTileset.png')
 
 }
@@ -33,7 +33,11 @@ var map,
 	keyLeft,
 	keyRight,
 	keyAttack,
-	keyAct
+	keyAct,
+	helm,
+	shoes,
+	chest,
+	pants
 	
 
 function create(){
@@ -65,11 +69,12 @@ function create(){
     weapons.enableBody = true;
     doors.enableBody = true;
     armor.enableBody = true;
+
 	map.createFromObjects('Items', 1858, 'axe', 0, true, false, weapons)
 	map.createFromObjects('Items', 728, 'closedDoor', 0, true, false, doors)
 	map.createFromObjects('Items', 1877, 'bow', 0, true, false, weapons)
 	map.createFromObjects('Items', 1797, 'sword', 0, true, false, weapons)
-	map.createFromObjects('Items', 1353, 'steelChest', 0, true, false, armor)
+	map.createFromObjects('Items', 1353, 'plate', 0, true, false, armor)
     // this.terrain.debug = true
 
     //*****************************************************************
@@ -77,17 +82,22 @@ function create(){
     //*****************************************************************
 
 	man = game.add.sprite(50,50, 'man');
-	helm = game.add.sprite(50,50,'leatherHelm')
-	shoes = game.add.sprite(50,50,'leatherShoes')
-	chest = game.add.sprite(50,50,'leatherChest')
-	pants = game.add.sprite(50,50,'leatherPants')
-	// this.physics.p2.enable(man)
-    // man.anchor.setTo(0.5, 0.5);
+    man.inventory = {"armor":"leather","weapon":"","gold":"0"}
+    man.health = 100
+    man.strength = 10
+    man.alive = true
+    //*****************************************************************
+	helm = game.add.sprite(man.position.x,man.position.y,man.inventory.armor + 'Helm');
+	shoes = game.add.sprite(man.position.x,man.position.y,man.inventory.armor+'Shoes');
+	chest = game.add.sprite(man.position.x,man.position.y,man.inventory.armor+'Chest');
+	pants = game.add.sprite(man.position.x,man.position.y,man.inventory.armor+'Pants');
     man.scale.setTo(0.5,0.5);
     helm.scale.setTo(0.5,0.5)
     shoes.scale.setTo(0.5,0.5)
     chest.scale.setTo(0.5,0.5)
     pants.scale.setTo(0.5,0.5)
+ 	// clothing()
+ 	//*******************************************************************
 
 	// layer = map.createLayer("Ground")
 	// terrain = map.createLayer("Terrain")
@@ -103,6 +113,10 @@ function create(){
     game.physics.arcade.enable(shoes)
     game.physics.arcade.enable(chest)
     game.physics.arcade.enable(pants)
+    helm.enableBody = true
+	pants.enableBody = true
+	chest.enableBody = true
+	shoes.enableBody = true
     
 
     //*****************************************************************
@@ -168,10 +182,6 @@ function create(){
     keyAttack = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
     keyAct 	  = game.input.keyboard.addKey(Phaser.Keyboard.E)
     cursors   = game.input.keyboard.createCursorKeys();
-    man.inventory = ['Leather Armor']
-    man.health = 100
-    man.strength = 10
-    man.alive = true
     
 }
 function update(){
@@ -199,6 +209,7 @@ function update(){
  //    	man.body.moveDown(400);
  //    	manimation.play('walkDown',10,false)
  //    }
+ // clothing()
  game.physics.arcade.collide(man, terrain);
  game.physics.arcade.collide(helm, terrain);
  game.physics.arcade.collide(pants, terrain);
@@ -207,8 +218,15 @@ function update(){
  	if(weapons.children[0]){
  		for(weapon in weapons.children){
 		 	if(man.overlap(weapons.children[weapon])){
-		 		overlapCallback(man,weapons.children[weapon])
+		 		overlapCallback(man,weapons.children[weapon],"weapon")
 		 	}
+		}
+	}
+	if(armor.children[0]){
+		for (set in armor.children){
+			if(man.overlap(armor.children[set])){
+				overlapCallback(man,armor.children[set],"armor")
+			}
 		}
 	}
     man.body.velocity.x = 0;
@@ -303,9 +321,58 @@ function update(){
 
    
 }
-function overlapCallback(player, item){
-	player.inventory.push(item.key)
+function overlapCallback(player, item,type){
+	if (type == "weapon"){
+		var drop = player.inventory.weapon
+		player.inventory.weapon = item
+		var newSprite = game.add.sprite(player.position.x,player.position.y,drop.name)
+		// weapons.add(newSprite)
+
+
+
+	}
+	else if (type == "armor" ){
+		player.inventory.armor = item.key
+		changeClothes()
+
+	}
+	else if (type == "gold"){
+		player.inventory.gold += item
+	}
 	item.destroy()
+}
+function changeClothes(){
+	helm.loadTexture(man.inventory.armor+'Helm')
+	shoes.loadTexture(man.inventory.armor+'Shoes')
+	chest.loadTexture(man.inventory.armor+'Chest')
+	pants.loadTexture(man.inventory.armor+'Pants')
+
+	// helm = game.add.sprite(man.position.x,man.position.y,man.inventory.armor + 'Helm')
+	// shoes = game.add.sprite(man.position.x,man.position.y,man.inventory.armor+'Shoes')
+	// chest = game.add.sprite(man.position.x,man.position.y,man.inventory.armor+'Chest')
+	// pants = game.add.sprite(man.position.x,man.position.y,man.inventory.armor+'Pants')
+ //    man.scale.setTo(0.5,0.5);
+ //    helm.scale.setTo(0.5,0.5)
+ //    shoes.scale.setTo(0.5,0.5)
+ //    chest.scale.setTo(0.5,0.5)
+ //    pants.scale.setTo(0.5,0.5)
+ //    game.physics.arcade.enable(man)
+ //    game.physics.arcade.enable(helm)
+ //    game.physics.arcade.enable(shoes)
+ //    game.physics.arcade.enable(chest)
+ //    game.physics.arcade.enable(pants)
+ //    helm.enableBody = true
+	// pants.enableBody = true
+	// chest.enableBody = true
+	// shoes.enableBody = true
+	// helm.body.velocity.x = 0;
+ //    helm.body.velocity.y = 0;
+	// pants.body.velocity.x = 0;
+	// pants.body.velocity.y = 0;
+	// shoes.body.velocity.x = 0;
+	// shoes.body.velocity.y = 0;
+	// chest.body.velocity.x = 0;
+	// chest.body.velocity.y = 0;
 }
 
 function render() {
