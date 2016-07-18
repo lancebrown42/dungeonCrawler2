@@ -1,9 +1,10 @@
-var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update, render: render })
+var game = new Phaser.Game(800,600, Phaser.AUTO, '', { preload: preload, create: create, update: update, render: render })
 
 
 function preload() {
     game.load.tilemap('overworld', 'assets/maps/testmap.json', null, Phaser.Tilemap.TILED_JSON)
     game.load.spritesheet('man', 'assets/walkcycle/BODY_male.png', 64, 64)
+    game.load.spritesheet('skelly','assets/walkcycle/BODY_skeleton_small.png',32,32)
     game.load.spritesheet('death','assets/hurt/BODY_male.png',64,64)
     game.load.spritesheet('plateShoes', 'assets/walkcycle/FEET_plate_armor_shoes.png', 64, 64)
     game.load.spritesheet('plateHelm', 'assets/walkcycle/HEAD_plate_armor_helmet.png', 64, 64)
@@ -40,10 +41,12 @@ var map,
     chest,
     pants,
     healthbar,
-    x
+    x,
+    skelly
 
 
 function create() {
+
     //*****************************************************************
     //start Arcade
     //*****************************************************************
@@ -107,6 +110,22 @@ function create() {
     // pants.scale.setTo(0.5, 0.5)
     // clothing()
     //*******************************************************************
+    // load in baddies
+    //****************** *************************************************
+    var Skelly = function(number){
+    	this.spawnX = Math.floor(Math.random()*1000)
+    	this.spawnY = Math.floor(Math.random()*1000)
+    	this.sprite = game.add.sprite(this.spawnX,this.spawnY,'skelly')
+    	this.hp = 20
+    	this.gold = Math.floor(Math.random()*10)
+    	this.number = number
+
+    }
+    for(var i = 0; i < 100; i++){
+	    	setTimeout(function(){new Skelly(i)},10000)
+	    
+    }
+    //*******************************************************************
     x = man.hp/man.totalhp
     deathbar = game.add.graphics(0,0)
 	healthbar = game.add.graphics(0,0)
@@ -148,7 +167,7 @@ function create() {
     //*****************************************************************
 
     game.camera.setBoundsToWorld()
-    game.camera.setSize(800, 600)
+    game.camera.setSize(800,600)
     game.camera.follow(man)
         // walls = game.add.group()
         // man.enableBody = true
@@ -345,10 +364,9 @@ function update() {
 
         }
     } else if (keyAttack.isDown) {
-    	man.hp --
-        console.log(man.hp)
-        healthbar.updateCache()
-        healthbar.update()
+    	if (man.weapon == 'sword'){
+    		slash(man)
+    	}
     }
     if (man.hp <= 0) {
         man.alive = false
@@ -410,6 +428,6 @@ function death(player){
 
 
 }
-function collisionHandler(obj1, obj2) {
-    console.log('Collision between ', obj1, ' and ', obj2)
+function slash(unit){
+
 }
