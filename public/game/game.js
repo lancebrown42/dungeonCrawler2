@@ -4,6 +4,7 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create
 function preload() {
     game.load.tilemap('overworld', 'assets/maps/testmap.json', null, Phaser.Tilemap.TILED_JSON)
     game.load.spritesheet('man', 'assets/walkcycle/BODY_male.png', 64, 64)
+    game.load.spritesheet('death','assets/hurt/BODY_male.png',64,64)
     game.load.spritesheet('plateShoes', 'assets/walkcycle/FEET_plate_armor_shoes.png', 64, 64)
     game.load.spritesheet('plateHelm', 'assets/walkcycle/HEAD_plate_armor_helmet.png', 64, 64)
     game.load.spritesheet('platePants', 'assets/walkcycle/LEGS_plate_armor_pants.png', 64, 64)
@@ -391,7 +392,21 @@ function render() {
 
 }
 function death(player){
-    man.body.moves = false
+    player.body.moves = false
+    dead = game.add.sprite(player.position.x,player.position.y,'death')
+    dead.scale.setTo(0.5,0.5)
+    deadimate = dead.animations
+    deadimate.add('die', [0,1,2,3,4,5], 5, true)
+    deadimate.play('die',5,false)
+    player.hp = 100
+    man.visible = false
+    var drop = player.inventory.weapon
+    var drop2 = player.inventory.gold
+
+    var newSprite = game.add.sprite(player.position.x, player.position.y, drop.name)
+
+    setTimeout(function(){player.reset(Math.floor(Math.random()*1000),Math.floor(Math.random()*1000));player.body.moves = true; player.hp = player.totalhp},5000)
+
 
 
 }
