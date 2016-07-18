@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" nextobjectid="24">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" nextobjectid="27">
  <tileset firstgid="1" name="Dungeon" tilewidth="32" tileheight="32" tilecount="3072" columns="64">
   <image source="../../../../../Downloads/DungeonCrawl_ProjectUtumnoTileset.png" width="2048" height="1536"/>
   <tile id="1140">
@@ -131,6 +131,21 @@
   <object id="23" type="door" gid="728" x="288" y="1122" width="32" height="32">
    <properties>
     <property name="sprite" value="closedDoor"/>
+   </properties>
+  </object>
+  <object id="24" name="steelChest" type="armor" gid="1353" x="185" y="938" width="32" height="32">
+   <properties>
+    <property name="sprite" value="steelChest"/>
+   </properties>
+  </object>
+  <object id="25" name="sword" type="weapon" gid="1797" x="218" y="503" width="32" height="32">
+   <properties>
+    <property name="sprite" value="sword"/>
+   </properties>
+  </object>
+  <object id="26" name="bow" type="weapon" gid="1877" x="389" y="927" width="32" height="32">
+   <properties>
+    <property name="sprite" value="bow"/>
    </properties>
   </object>
  </objectgroup>
