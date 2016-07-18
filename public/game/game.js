@@ -140,7 +140,11 @@ function update(){
  //    	manimation.play('walkDown',10,false)
  //    }
  game.physics.arcade.collide(man, terrain);
-
+ 	if(weapons.children[0]){
+	 if(man.overlap(weapons.children[0])){
+	 	overlapCallback(man,weapons.children[0])
+	 }
+	}
     man.body.velocity.x = 0;
     man.body.velocity.y = 0;
     if (keyLeft.isDown) {
@@ -173,10 +177,8 @@ function update(){
 
 		} else if (man.body.blocked.down) {
 
-			// console.log(man)
-			console.log(man.position.y)
-			console.log(man.position.type)
-			console.log(t)
+			console.log(man)
+
 		    // on the ground. same as man.body.onFloor() ??
 
 		}
@@ -248,6 +250,11 @@ function update(){
  //        manimation.play('walkDown',10,false)
  //    }
 }
+function overlapCallback(player, item){
+	player.inventory.push(item.key)
+	item.destroy()
+}
+
 function render() {
 	game.debug.bodyInfo(man,20,150)
     game.debug.spriteInfo(man, 20, 32);
