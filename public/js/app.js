@@ -14,4 +14,5 @@ function configRouter($stateProvider, $urlRouterProvider){
             templateUrl : '/game.html',
             // controller : 'gameController as gCtrl'
         })
+
 }

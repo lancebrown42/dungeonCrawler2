@@ -6,6 +6,9 @@ function preload(){
 	game.load.spritesheet('man','assets/walkcycle/BODY_male.png',64,64)
 	// game.load.spritesheet('man','assets/BODY_male_left.png',64,64,9)
 	game.load.image('tiles','assets/maps/DungeonCrawl_ProjectUtumnoTileset.png')
+	game.load.image('axe','assets/item_sprites/axe.png')
+	game.load.image('closedDoor','assets/item_sprites/closedDoor.png')
+	game.load.spritesheet('sprites','assets/maps/DungeonCrawl_ProjectUtumnoTileset.png')
 
 }
 var map,
@@ -45,7 +48,12 @@ function create(){
     // map.setCollisionBetween(900,1200);
     // this.physics.p2.convertTilemap(map, this.terrain);
     // console.log(this.physics.p2.convertTilemap(map, this.terrain))
-    
+    weapons = game.add.group();
+    doors = game.add.group();
+    weapons.enableBody = true;
+    doors.enableBody = true;
+	map.createFromObjects('Items', 1858, 'axe', 0, true, false, weapons)
+	map.createFromObjects('Items', 728, 'closedDoor', 0, true, false, doors)
     // this.terrain.debug = true
 
     //*****************************************************************
@@ -81,7 +89,8 @@ function create(){
     // walls.enableBody = true
     // walls.physicsBodyType = Phaser.Physics.P2JS;
     // this.physics.enable([man,this.terrain],Phaser.Physics.ARCADE)
-    map.setCollisionBetween(1, 4000, true, terrain)
+    map.setCollisionBetween(1, 700, true, terrain)
+    map.setCollisionBetween(800,4000,true,terrain)
     // this.physics.p2.setBoundsToWorld(true, true, true, true, false);
     man.body.collideWorldBounds = true
     // man.body.setZeroDamping();
@@ -101,6 +110,9 @@ function create(){
     keyAttack = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
     keyAct 	  = game.input.keyboard.addKey(Phaser.Keyboard.E)
     cursors   = game.input.keyboard.createCursorKeys();
+    man.inventory = []
+    man.health = 100
+    man.strength = 10
     
 }
 function update(){
@@ -148,12 +160,32 @@ function update(){
         man.animations.play('walkUp',10,false)
         
     }
-    if (keyAct.isDown && man.body.blocked.down == true){
-        
-    	console.log(man)
+    if(keyAct.isDown){ //using the action key
+
+	    if (man.body.blocked.right) {
+	    // running into a wall on the right
+
+		} else if (man.body.blocked.left) {
+		    // running into a wall on the left
+
+		} else if (man.body.blocked.up) {
+		    // hitting something above
+
+		} else if (man.body.blocked.down) {
+
+			// console.log(man)
+			console.log(man.position.y)
+			console.log(man.position.type)
+			console.log(t)
+		    // on the ground. same as man.body.onFloor() ??
+
+		}
     }
+
     else if(keyAttack.isDown){
     	console.log("killlll")
+    	man.health--
+    	console.log(man.health)
     }
 
     // if (cursors.left.isDown)
