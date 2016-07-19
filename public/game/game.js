@@ -10,11 +10,12 @@ $.getJSON("assets/maps/testmap.json", function(json) {
     	var ph2 = []
     	for(var j = 0; j < json.layers[0].width;j++){
     		ph2[j] = ph[j+i]
-    		acceptableTiles.push(ph[j+i])
+    		if(ph[j+1]!=65){acceptableTiles.push(ph[j+i])}
     	}
     	pathArr[i] = ph2
     	// console.log(pathArr)
     }
+    // console.log(acceptableTiles)
     // console.log(pathArr)
 });
 
@@ -181,7 +182,8 @@ function create() {
 
     }
     skellycounter = 0
-	setInterval(function(){skellyArr.push(new Skelly(skellycounter)); skellycounter++},5000)
+	spawnInterval = setInterval(function(){skellyArr.push(new Skelly(skellycounter)); skellycounter++},5000)
+	
 	    
     //*******************************************************************
     x = man.hp/man.totalhp
@@ -201,14 +203,21 @@ function create() {
 	currentPlayerXtile = Math.floor(man.position.x / tileSize)
 	currentPlayerYtile = Math.floor(man.position.y / tileSize)
 	setInterval(function(){
-		for(var j = 0; j < skellycounter;j++){
-			// currentSkellyXTile = Math.floor(skellyArr[j].sprite.position.x/tileSize)
-			// currentSkellyYTile = Math.floor(skellyArr[j].sprite.position.y/tileSize)
+		skellyArr.forEach(function(skelly){
 
+			
+			// currentSkellyXTile = Math.floor(skelly.sprite.position.x/tileSize)
+			// currentSkellyYTile = Math.floor(skelly.sprite.position.y/tileSize)
+			// console.log(skelly.currentSkellyXTile)
+			// console.log("Length", skellyArr.length)
+			// console.log("Skelly: ", skelly)
+			// console.log("CurrentXTile: ",skelly.currentSkellyXTile)
+			// console.log(j)
 
-			easystar.findPath(skellyArr[j].currentSkellyXTile,skellyArr[j].currentSkellyYTile,currentPlayerXtile,currentPlayerYtile, function( path ) {
-				console.log(skellyArr)
-				console.log(j)
+			easystar.findPath(skelly.currentSkellyXTile,skelly.currentSkellyYTile,currentPlayerXtile,currentPlayerYtile, function( path ) {
+				// console.log(skellyArr)
+				// console.log(j)
+				// console.log(path)
 
 		        if (path === null) {
 			        console.log("The path to the destination point was not found.");
@@ -218,140 +227,56 @@ function create() {
 	        	    currentNextPointY = path[1].y;
 			    	
 			    }
-			    // if (currentNextPointX < currentSkellyXTile && currentNextPointY < currentSkellyYTile)
-	      //   	    {
-	      //   	    	// left up
-	        	    	
-	      //   	    	console.log("GO LEFT UP");
-	        	    	
-	      //   	    	enemyDirection = "NW";
-	      //   	    }
-        	    if (currentNextPointX == skellyArr[j].currentSkellyXTile && currentNextPointY < skellyArr[j].currentSkellyYTile)
+			    // console.log(skelly)
+        	    if (currentNextPointX == skelly.currentSkellyXTile && currentNextPointY < skelly.currentSkellyYTile)
         	    {
         	    	// up
         	    	
         	    	// console.log("GO UP");
         	    	
-        	    	enemyDirection = "N";
+        	    	skelly.enemyDirection = "N";
         	    	
         	    }
-        	    // else if (currentNextPointX > skellyArr[j].currentSkellyXTile && currentNextPointY < skellyArr[j].currentSkellyYTile)
-        	    // {
-        	    // 	// right up
-        	    	
-        	    // 	console.log("GO RIGHT UP");
-        	    	
-        	    // 	enemyDirection = "NE";
-        	    	
-        	    // }
-        	    else if (currentNextPointX < skellyArr[j].currentSkellyXTile && currentNextPointY == skellyArr[j].currentSkellyYTile)
+
+        	    else if (currentNextPointX < skelly.currentSkellyXTile && currentNextPointY == skelly.currentSkellyYTile)
         	    {
         	    	// left
         	    	
         	    	// console.log("GO LEFT");
         	    	
-        	    	skellyArr[j].enemyDirection = "W";
+        	    	skelly.enemyDirection = "W";
         	    	
         	    }
-        	    else if (currentNextPointX > skellyArr[j].currentSkellyXTile && currentNextPointY == skellyArr[j].currentSkellyYTile)
+        	    else if (currentNextPointX > skelly.currentSkellyXTile && currentNextPointY == skelly.currentSkellyYTile)
         	    {
         	    	// right
         	    	
         	    	// console.log("GO RIGHT");
         	    	
-        	    	skellyArr[j].enemyDirection = "E";
+        	    	skelly.enemyDirection = "E";
         	    
         	    }
-        	    // else if (currentNextPointX > skellyArr[j].currentSkellyXTile && currentNextPointY > skellyArr[j].currentSkellyYTile)
-        	    // {
-        	    // 	// right down
-        	    	
-        	    // 	console.log("GO RIGHT DOWN");
-        	    	
-        	    // 	skellyArr[j].enemyDirection = "SE";
-        	    	
-        	    // }
-        	    else if (currentNextPointX == skellyArr[j].currentSkellyXTile && currentNextPointY > skellyArr[j].currentSkellyYTile)
+
+        	    else if (currentNextPointX == skelly.currentSkellyXTile && currentNextPointY > skelly.currentSkellyYTile)
         	    {
         	    	// down
         	    	
         	    	// console.log("GO DOWN");
         	    	
-        	    	skellyArr[j].enemyDirection = "S";
+        	    	skelly.enemyDirection = "S";
         	    	
         	    }
-        	    // else if (currentNextPointX < skellyArr[j].currentSkellyXTile && currentNextPointY > skellyArr[j].currentSkellyYTile)
-        	    // {
-        	    // 	// left down
-        	    	
-        	    // 	console.log("GO LEFT DOWN");
-        	    	
-        	    // 	skellyArr[j].enemyDirection = "SW";
-        	    	
-        	    // }
+
         	    else
         	    {
         	    	
-        	    	skellyArr[j].enemyDirection = "STOP";
+        	    	skelly.enemyDirection = "STOP";
         	    	
         	    }
 			})
 			easystar.calculate()
-				var enemySpeed = 90;
-				for(var k = 0; k < skellycounter; k++){
-		       
-		        if (skellyArr[k].enemyDirection == "N") {
-		        	skellyArr[k].sprite.body.velocity.x = -enemySpeed;
-		        	skellyArr[k].sprite.body.velocity.y = -enemySpeed;
-		        }
-		        else if (skellyArr[k].enemyDirection == "S")
-		        {
-		        	skellyArr[k].sprite.body.velocity.x = enemySpeed;
-		        	skellyArr[k].sprite.body.velocity.y = enemySpeed;
-		        }
-		        else if (skellyArr[k].enemyDirection == "E") {
-		        	skellyArr[k].sprite.body.velocity.x = enemySpeed;
-		        	skellyArr[k].sprite.body.velocity.y = -enemySpeed;
-		        }
-		        else if (skellyArr[k].enemyDirection == "W")
-		        {
-		        	skellyArr[k].sprite.body.velocity.x = -enemySpeed;
-		        	skellyArr[k].sprite.body.velocity.y = enemySpeed;
-		        }
-		        // else if (skellyArr[j].enemyDirection == "SE")
-		        // {
-		        // 	cowboy.body.velocity.x = enemySpeed;
-		        // 	cowboy.body.velocity.y = 0;
-		        // }
-		        // else if (skellyArr[j].enemyDirection == "NW")
-		        // {
-		        // 	cowboy.body.velocity.x = -enemySpeed;
-		        // 	cowboy.body.velocity.y = 0;   	
-		        // }
-		        // else if (skellyArr[j].enemyDirection == "SW")
-		        // {
-		        // 	cowboy.body.velocity.x = 0;
-		        // 	cowboy.body.velocity.y = enemySpeed;    	
-		        // }
-		       
-		        // else if (skellyArr[j].enemyDirection == "NE")
-		        // {
-		        // 	cowboy.body.velocity.x = 0;
-		        // 	cowboy.body.velocity.y = -enemySpeed;
-		        // }
-		        else if (skellyArr[k].enemyDirection == "STOP")
-		        {
-		        	skellyArr[k].sprite.body.velocity.x = 0;
-		        	skellyArr[k].sprite.body.velocity.y = 0;
-		        }
-		        else // kUST IN CASE IF enemyDirection wouldnt exist we stop the skellyArr[k].sprite movement
-		        {
-		        	skellyArr[k].sprite.body.velocity.x = 0;
-		        	skellyArr[k].sprite.body.velocity.y = 0;
-		        }
-			    
-		}
-	}}
+				
+	})}
 	)
 
     // layer = map.createLayer("Ground")
@@ -455,34 +380,15 @@ function update() {
 
 
 
-    
-    //  if (cursors.left.isDown)
-    //    {
-    //    	man.body.moveLeft(400);
-    //    	manimation.play('walkLeft',10,false)
-    //    }
-    //    else if (cursors.right.isDown)
-    //    {
-    //    	man.body.moveRight(400);
-    //    	manimation.play('walkRight',10,false)
-    //    }
+    skellyArr.forEach(function(skelly){
 
-    //    if (cursors.up.isDown)
-    //    {
-    //    	man.body.moveUp(400);
-    //    	manimation.play('walkUp',10,false)
-    //    }
-    //    else if (cursors.down.isDown)
-    //    {
-    //    	man.body.moveDown(400);
-    //    	manimation.play('walkDown',10,false)
-    //    }
-    // clothing()
+	    game.physics.arcade.collide(skelly, terrain)
+    })
+    if (skellyArr.length > 1){
+		clearInterval(spawnInterval)
+	}
     game.physics.arcade.collide(man, terrain);
-    // game.physics.arcade.collide(helm, terrain);
-    // game.physics.arcade.collide(pants, terrain);
-    // game.physics.arcade.collide(chest, terrain);
-    // game.physics.arcade.collide(shoes, terrain);
+
     if (keyAct.isDown) {
         if (weapons.children[0]) {
             for (weapon in weapons.children) {
@@ -501,14 +407,7 @@ function update() {
     }
     man.body.velocity.x = 0;
     man.body.velocity.y = 0;
-    // helm.body.velocity.x = 0;
-    // helm.body.velocity.y = 0;
-    // pants.body.velocity.x = 0;
-    // pants.body.velocity.y = 0;
-    // shoes.body.velocity.x = 0;
-    // shoes.body.velocity.y = 0;
-    // chest.body.velocity.x = 0;
-    // chest.body.velocity.y = 0;
+
 
     if (keyLeft.isDown) {
         man.body.velocity.x = -225
@@ -557,6 +456,49 @@ function update() {
         chest.animations.play('walkUp', 10, false)
 
     }
+    var enemySpeed = 90;
+				skellyArr.forEach(function(skelly){
+		       
+		        if (skelly.enemyDirection == "N") {
+		        	skelly.sprite.body.velocity.x = -enemySpeed;
+		        	skelly.sprite.body.velocity.y = -enemySpeed;
+		        	
+
+		        }
+		        else if (skelly.enemyDirection == "S")
+		        {
+		        	skelly.sprite.body.velocity.x = enemySpeed;
+		        	skelly.sprite.body.velocity.y = enemySpeed;
+		        	
+		        }
+		        else if (skelly.enemyDirection == "E") {
+		        	skelly.sprite.body.velocity.x = enemySpeed;
+		        	skelly.sprite.body.velocity.y = -enemySpeed;
+		        	
+		        }
+		        else if (skelly.enemyDirection == "W")
+		        {
+		        	skelly.sprite.body.velocity.x = -enemySpeed;
+		        	skelly.sprite.body.velocity.y = enemySpeed;
+		        	
+		        }
+
+		        else if (skelly.enemyDirection == "STOP")
+		        {
+		        	skelly.sprite.body.velocity.x = 0;
+		        	skelly.sprite.body.velocity.y = 0;
+		        }
+		        else // JUST IN CASE IF enemyDirection wouldnt exist we stop the skelly.sprite movement
+		        {
+		        	skelly.sprite.body.velocity.x = 0;
+		        	skelly.sprite.body.velocity.y = 0;
+		        }
+		        //update skelly position
+		        
+		        skelly.currentSkellyXTile = Math.floor(skelly.sprite.position.x/tileSize)
+				skelly.currentSkellyYTile = Math.floor(skelly.sprite.position.y/tileSize)
+			    
+		})
     if (keyAct.isDown) { //using the action key
 
         if (man.body.blocked.right) {
@@ -586,6 +528,7 @@ function update() {
     }
     currentPlayerXtile = Math.floor(man.body.position.x / tileSize);
 	currentPlayerYtile = Math.floor(man.body.position.y / tileSize);	
+
 
 
 }
