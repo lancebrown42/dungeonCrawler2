@@ -353,7 +353,7 @@ function update() {
 
 	    game.physics.arcade.collide(skelly, terrain)
     })
-    if (skellyArr.length > 1){
+    if (skellyArr.length > 10){
 		clearInterval(spawnInterval)
 	}
     game.physics.arcade.collide(man, terrain);
