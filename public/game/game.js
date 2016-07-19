@@ -88,7 +88,7 @@ function create() {
 	// console.log(map)
 	// console.log(layer)
 	// console.log(easystar.setAcceptableTiles(layer._mc.tilesets))
-	easystar.enableDiagonals();
+
 	easystar.findPath(3, 0, 5, 5, function( path ) {
 		console.log("searching for path")
         if (path === null) {
@@ -161,7 +161,7 @@ function create() {
 
     }
     skellycounter = 0
-	setInterval(function(){new Skelly(skellycounter); skellycounter++},10000)
+	// setInterval(function(){new Skelly(skellycounter); skellycounter++},10000)
 	    
     //*******************************************************************
     x = man.hp/man.totalhp
