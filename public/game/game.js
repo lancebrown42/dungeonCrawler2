@@ -42,7 +42,8 @@ var map,
     pants,
     healthbar,
     x,
-    skelly
+    skelly,
+    skellycounter
 
 
 function create() {
@@ -121,10 +122,9 @@ function create() {
     	this.number = number
 
     }
-    for(var i = 0; i < 100; i++){
-	    	setTimeout(function(){new Skelly(i)},10000)
+    skellycounter = 0
+	setInterval(function(){new Skelly(skellycounter); skellycounter++},10000)
 	    
-    }
     //*******************************************************************
     x = man.hp/man.totalhp
     deathbar = game.add.graphics(0,0)
