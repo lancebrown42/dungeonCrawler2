@@ -1,19 +1,21 @@
 var game = new Phaser.Game(800,600, Phaser.AUTO, '', { preload: preload, create: create, update: update, render: render })
-var easystar = new EasyStar.js();
+
 var pathArr = []
+var acceptableTiles = []
 $.getJSON("assets/maps/testmap.json", function(json) {
-	console.log(json.layers[0])
+	// console.log(json.layers[0])
     var ph = json.layers[0].data;
     for(var i = 0; i<json.layers[0].height;i++){
 
     	var ph2 = []
     	for(var j = 0; j < json.layers[0].width;j++){
     		ph2[j] = ph[j+i]
+    		acceptableTiles.push(ph[j+i])
     	}
     	pathArr[i] = ph2
     	// console.log(pathArr)
     }
-    console.log(pathArr)
+    // console.log(pathArr)
 });
 
 function preload() {
@@ -58,7 +60,15 @@ var map,
     healthbar,
     x,
     skelly,
-    skellycounter
+    skellycounter,
+    currentPlayerXtile,
+    currentPlayerYtile,
+    // currentSkellyXTile,
+    // currentSkellyYTile,
+    // currentNextPointX,
+    // currentNextPointY,
+    tileSize,
+    skellyArr
 
 
 function create() {
@@ -83,25 +93,20 @@ function create() {
     //pathfinding
     //*****************************************************************
 
+
+    var easystar = new EasyStar.js();
 	easystar.setGrid(pathArr);
-	easystar.setAcceptableTiles([896,897,898,899,900,901,902,903,913,914,915,916,960,961,962,963,964,965,966,0]);
+	// console.log(acceptableTiles)
+	easystar.setAcceptableTiles(acceptableTiles);
+	easystar.setIterationsPerCalculation(1000)
+	tileSize = 32
+
+
 	// console.log(map)
 	// console.log(layer)
 	// console.log(easystar.setAcceptableTiles(layer._mc.tilesets))
 
-	easystar.findPath(3, 0, 5, 5, function( path ) {
-		console.log("searching for path")
-        if (path === null) {
-	        console.log("The path to the destination point was not found.");
-	    } else {
-	      	console.log("Path found")
-	    	for (var i = 0; i < path.length; i++)
-	    	{
-	    		console.log("P: " + i + ",   X: " + path[i].x + ", Y: " + path[i].y);
-	    	}
-	    	
-	    }
-	});
+
     // console.log(this.terrain)
     // this.game.terrain = map.createLayer('Terrain');
     // this.game.obj = map.createLayer('Object Layer 1')
@@ -151,6 +156,7 @@ function create() {
     //*******************************************************************
     // load in baddies
     //****************** *************************************************
+    skellyArr = []
     var Skelly = function(number){
     	this.spawnX = Math.floor(Math.random()*1000)
     	this.spawnY = Math.floor(Math.random()*1000)
@@ -158,10 +164,24 @@ function create() {
     	this.hp = 20
     	this.gold = Math.floor(Math.random()*10)
     	this.number = number
+    	this.skellyAni = this.animations
+    	this.sprite.enableBody = true
+    	game.physics.arcade.enable(this.sprite)
+    	this.sprite.body.collideWorldBounds = true
+    	game.physics.arcade.collide(this.sprite, terrain);
+    	this.currentSkellyXTile = Math.floor(this.sprite.position.x/tileSize)
+		this.currentSkellyYTile = Math.floor(this.sprite.position.y/tileSize)
+		this.currentNextPointX 
+		this.currentNextPointY
+		this.enemyDirection
+    	// this.skellyAni.add('walkLeft', [10, 11, 12, 13, 14, 15, 16, 17], 20, true)
+	    // this.skellyAni.add('walkRight', [28, 29, 30, 31, 32, 33, 34, 35], 20, true)
+	    // this.skellyAni.add('walkUp', [1, 2, 3, 4, 5, 6, 7, 8], 20, true)
+	    // this.skellyAni.add('walkDown', [19, 20, 21, 22, 23, 24, 25, 26], 20, true)
 
     }
     skellycounter = 0
-	// setInterval(function(){new Skelly(skellycounter); skellycounter++},10000)
+	setInterval(function(){skellyArr.push(new Skelly(skellycounter)); skellycounter++},10000)
 	    
     //*******************************************************************
     x = man.hp/man.totalhp
@@ -178,7 +198,160 @@ function create() {
 	healthbar.drawRoundedRect(man.position.x - 36, man.position.y - 50, 32*x, 10, 5)
 	man.addChild(deathbar)
 	man.addChild(healthbar)
+	currentPlayerXtile = Math.floor(man.position.x / tileSize)
+	currentPlayerYtile = Math.floor(man.position.y / tileSize)
+	setInterval(function(){
+		for(var j = 0; j < skellycounter; j++){
+			// currentSkellyXTile = Math.floor(skellyArr[j].sprite.position.x/tileSize)
+			// currentSkellyYTile = Math.floor(skellyArr[j].sprite.position.y/tileSize)
 
+
+			easystar.findPath(skellyArr[j].currentSkellyXTile,skellyArr[j].currentSkellyYTile,currentPlayerXtile,currentPlayerYtile, function( path ) {
+				console.log(skellyArr)
+
+		        if (path === null) {
+			        console.log("The path to the destination point was not found.");
+			    }
+			    if(path){
+			    	currentNextPointX = path[1].x;
+	        	    currentNextPointY = path[1].y;
+			    	
+			    }
+			    // if (currentNextPointX < currentSkellyXTile && currentNextPointY < currentSkellyYTile)
+	      //   	    {
+	      //   	    	// left up
+	        	    	
+	      //   	    	console.log("GO LEFT UP");
+	        	    	
+	      //   	    	enemyDirection = "NW";
+	      //   	    }
+        	    if (currentNextPointX == skellyArr[j].currentSkellyXTile && currentNextPointY < skellyArr[j].currentSkellyYTile)
+        	    {
+        	    	// up
+        	    	
+        	    	// console.log("GO UP");
+        	    	
+        	    	skellyArr[j].enemyDirection = "N";
+        	    	
+        	    }
+        	    // else if (currentNextPointX > currentSkellyXTile && currentNextPointY < currentSkellyYTile)
+        	    // {
+        	    // 	// right up
+        	    	
+        	    // 	console.log("GO RIGHT UP");
+        	    	
+        	    // 	skellyArr[j].enemyDirection = "NE";
+        	    	
+        	    // }
+        	    else if (currentNextPointX < skellyArr[j].currentSkellyXTile && currentNextPointY == skellyArr[j].currentSkellyYTile)
+        	    {
+        	    	// left
+        	    	
+        	    	// console.log("GO LEFT");
+        	    	
+        	    	skellyArr[j].enemyDirection = "W";
+        	    	
+        	    }
+        	    else if (currentNextPointX > skellyArr[j].currentSkellyXTile && currentNextPointY == skellyArr[j].currentSkellyYTile)
+        	    {
+        	    	// right
+        	    	
+        	    	// console.log("GO RIGHT");
+        	    	
+        	    	skellyArr[j].enemyDirection = "E";
+        	    
+        	    }
+        	    // else if (currentNextPointX > currentSkellyXTile && currentNextPointY > currentSkellyYTile)
+        	    // {
+        	    // 	// right down
+        	    	
+        	    // 	console.log("GO RIGHT DOWN");
+        	    	
+        	    // 	skellyArr[j].enemyDirection = "SE";
+        	    	
+        	    // }
+        	    else if (currentNextPointX == skellyArr[j].currentSkellyXTile && currentNextPointY > skellyArr[j].currentSkellyYTile)
+        	    {
+        	    	// down
+        	    	
+        	    	// console.log("GO DOWN");
+        	    	
+        	    	skellyArr[j].enemyDirection = "S";
+        	    	
+        	    }
+        	    // else if (currentNextPointX < currentSkellyXTile && currentNextPointY > currentSkellyYTile)
+        	    // {
+        	    // 	// left down
+        	    	
+        	    // 	console.log("GO LEFT DOWN");
+        	    	
+        	    // 	skellyArr[j].enemyDirection = "SW";
+        	    	
+        	    // }
+        	    else
+        	    {
+        	    	
+        	    	skellyArr[j].enemyDirection = "STOP";
+        	    	
+        	    }
+			})
+			easystar.calculate()
+				var enemySpeed = 90;
+				for(var j = 0; j < skellycounter; j++){
+		       
+		        if (skellyArr[j].enemyDirection == "N") {
+		        	skellyArr[j].sprite.body.velocity.x = -enemySpeed;
+		        	skellyArr[j].sprite.body.velocity.y = -enemySpeed;
+		        }
+		        else if (skellyArr[j].enemyDirection == "S")
+		        {
+		        	skellyArr[j].sprite.body.velocity.x = enemySpeed;
+		        	skellyArr[j].sprite.body.velocity.y = enemySpeed;
+		        }
+		        else if (skellyArr[j].enemyDirection == "E") {
+		        	skellyArr[j].sprite.body.velocity.x = enemySpeed;
+		        	skellyArr[j].sprite.body.velocity.y = -enemySpeed;
+		        }
+		        else if (skellyArr[j].enemyDirection == "W")
+		        {
+		        	skellyArr[j].sprite.body.velocity.x = -enemySpeed;
+		        	skellyArr[j].sprite.body.velocity.y = enemySpeed;
+		        }
+		        // else if (skellyArr[j].enemyDirection == "SE")
+		        // {
+		        // 	cowboy.body.velocity.x = enemySpeed;
+		        // 	cowboy.body.velocity.y = 0;
+		        // }
+		        // else if (skellyArr[j].enemyDirection == "NW")
+		        // {
+		        // 	cowboy.body.velocity.x = -enemySpeed;
+		        // 	cowboy.body.velocity.y = 0;   	
+		        // }
+		        // else if (skellyArr[j].enemyDirection == "SW")
+		        // {
+		        // 	cowboy.body.velocity.x = 0;
+		        // 	cowboy.body.velocity.y = enemySpeed;    	
+		        // }
+		       
+		        // else if (skellyArr[j].enemyDirection == "NE")
+		        // {
+		        // 	cowboy.body.velocity.x = 0;
+		        // 	cowboy.body.velocity.y = -enemySpeed;
+		        // }
+		        else if (skellyArr[j].enemyDirection == "STOP")
+		        {
+		        	skellyArr[j].sprite.body.velocity.x = 0;
+		        	skellyArr[j].sprite.body.velocity.y = 0;
+		        }
+		        else // JUST IN CASE IF enemyDirection wouldnt exist we stop the skellyArr[j].sprite movement
+		        {
+		        	skellyArr[j].sprite.body.velocity.x = 0;
+		        	skellyArr[j].sprite.body.velocity.y = 0;
+		        }
+			    
+		}
+	}}
+	)
 
     // layer = map.createLayer("Ground")
     // terrain = map.createLayer("Terrain")
@@ -410,6 +583,8 @@ function update() {
         man.alive = false
         death(man)
     }
+    currentPlayerXtile = Math.floor(man.body.position.x / tileSize);
+	currentPlayerYtile = Math.floor(man.body.position.y / tileSize);	
 
 
 }
@@ -442,9 +617,9 @@ function changeClothes() {
 }
 
 function render() {
-    game.debug.bodyInfo(man, 20, 150)
-    game.debug.spriteInfo(man, 20, 32);
-    game.debug.cameraInfo(game.camera, 32, 500)
+    // game.debug.bodyInfo(man, 20, 150)
+    // game.debug.spriteInfo(man, 20, 32);
+    // game.debug.cameraInfo(game.camera, 32, 500)
 
 }
 function death(player){
