@@ -5,17 +5,18 @@ var acceptableTiles = []
 $.getJSON("assets/maps/testmap.json", function(json) {
 	// console.log(json.layers[0])
     var ph = json.layers[0].data;
+    // console.log(ph)
     for(var i = 0; i<json.layers[0].height;i++){
 
     	var ph2 = []
     	for(var j = 0; j < json.layers[0].width;j++){
-    		ph2[j] = ph[j+i]
-    		if(ph[j+1]!=65){acceptableTiles.push(ph[j+i])}
+    		ph2[j] = ph[j+i*40]
+    		if(ph[j+i*40]!=66&&ph[j+i*40]!=1078){acceptableTiles.push(ph[j+i*40])}
     	}
     	pathArr[i] = ph2
     	// console.log(pathArr)
     }
-    // console.log(acceptableTiles)
+
     // console.log(pathArr)
 });
 
@@ -97,6 +98,7 @@ function create() {
 
     var easystar = new EasyStar.js();
 	easystar.setGrid(pathArr);
+	console.log(pathArr)
 	// console.log(acceptableTiles)
 	easystar.setAcceptableTiles(acceptableTiles);
 	easystar.setIterationsPerCalculation(1000)
@@ -139,6 +141,7 @@ function create() {
     man.totalhp = 100
     man.strength = 10
     man.alive = true
+
         //*****************************************************************
     helm = game.add.sprite(0,0, man.inventory.armor + 'Helm');
     shoes = game.add.sprite(0,0,man.inventory.armor + 'Shoes');
@@ -149,11 +152,7 @@ function create() {
     man.addChild(pants)
     man.addChild(chest)
     man.scale.setTo(0.5, 0.5);
-    // helm.scale.setTo(0.5, 0.5)
-    // shoes.scale.setTo(0.5, 0.5)
-    // chest.scale.setTo(0.5, 0.5)
-    // pants.scale.setTo(0.5, 0.5)
-    // clothing()
+
     //*******************************************************************
     // load in baddies
     //****************** *************************************************
@@ -175,6 +174,8 @@ function create() {
 		this.currentNextPointX
 		this.currentNextPointY
 		this.enemyDirection
+		this.sprite.anchor.x = 0.5
+		this.sprite.anchor.y = 0.9
     	// this.skellyAni.add('walkLeft', [10, 11, 12, 13, 14, 15, 16, 17], 20, true)
 	    // this.skellyAni.add('walkRight', [28, 29, 30, 31, 32, 33, 34, 35], 20, true)
 	    // this.skellyAni.add('walkUp', [1, 2, 3, 4, 5, 6, 7, 8], 20, true)
