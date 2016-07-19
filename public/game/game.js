@@ -11,7 +11,7 @@ $.getJSON("assets/maps/testmap.json", function(json) {
     	var ph2 = []
     	for(var j = 0; j < json.layers[0].width;j++){
     		ph2[j] = ph[j+i*40]
-    		if(ph[j+i*40]!=66&&ph[j+i*40]!=1078){acceptableTiles.push(ph[j+i*40])}
+    		if(ph[j+i*40]!=66&&ph[j+i*40]!=1078&&ph[j+i*40]!=1002){acceptableTiles.push(ph[j+i*40])}
     	}
     	pathArr[i] = ph2
     	// console.log(pathArr)
@@ -362,7 +362,7 @@ function update() {
     // healthbar.lineStyle(5,1)
 
 
-
+    healthbar.scale.setTo(man.hp/man.totalhp,1)
     skellyArr.forEach(function(skelly){
 
 	    game.physics.arcade.collide(skelly, terrain)
@@ -394,6 +394,7 @@ function update() {
 
     if (keyLeft.isDown) {
         man.body.velocity.x = -225
+        man.facing = "left"
         man.animations.play('walkLeft', 10, false)
         // helm.body.velocity.x = -225
         helm.animations.play('walkLeft', 10, false)
@@ -406,6 +407,7 @@ function update() {
 
     } else if (keyRight.isDown) {
         man.body.velocity.x = 225
+        man.facing = "right"
         man.animations.play('walkRight', 10, false)
         // helm.body.velocity.x = 225
         helm.animations.play('walkRight', 10, false)
@@ -417,6 +419,7 @@ function update() {
         chest.animations.play('walkRight', 10, false)
     } else if (keyDown.isDown) {
         man.body.velocity.y = 225
+        man.facing = "down"
         man.animations.play('walkDown', 10, false)
         // helm.body.velocity.y = 225
         helm.animations.play('walkDown', 10, false)
@@ -428,6 +431,7 @@ function update() {
         chest.animations.play('walkDown', 10, false)
     } else if (keyUp.isDown) {
         man.body.velocity.y = -225
+        man.facing = "up"
         man.animations.play('walkUp', 10, false)
         // helm.body.velocity.y = -225
         helm.animations.play('walkUp', 10, false)
@@ -505,7 +509,7 @@ function update() {
 
         }
     } else if (keyAttack.isDown) {
-    	if (man.weapon == 'sword'){
+    	if (man.inventory.weapon.name == 'sword'){
     		slash(man)
     	}
     }
@@ -573,5 +577,7 @@ function death(player){
 
 }
 function slash(unit){
+	unit.hp --
+	console.log(unit.hp)
 
 }
