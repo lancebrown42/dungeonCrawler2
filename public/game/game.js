@@ -1,5 +1,20 @@
 var game = new Phaser.Game(800,600, Phaser.AUTO, '', { preload: preload, create: create, update: update, render: render })
+var easystar = new EasyStar.js();
+var pathArr = []
+$.getJSON("assets/maps/testmap.json", function(json) {
+	console.log(json.layers[0])
+    var ph = json.layers[0].data;
+    for(var i = 0; i<json.layers[0].height;i++){
 
+    	var ph2 = []
+    	for(var j = 0; j < json.layers[0].width;j++){
+    		ph2[j] = ph[j+i]
+    	}
+    	pathArr[i] = ph2
+    	// console.log(pathArr)
+    }
+    console.log(pathArr)
+});
 
 function preload() {
     game.load.tilemap('overworld', 'assets/maps/testmap.json', null, Phaser.Tilemap.TILED_JSON)
@@ -64,6 +79,29 @@ function create() {
     layer = map.createLayer('Ground');
     terrain = map.createLayer('Collision');
     layer.resizeWorld();
+    //*****************************************************************
+    //pathfinding
+    //*****************************************************************
+
+	easystar.setGrid(pathArr);
+	easystar.setAcceptableTiles([896,897,898,899,900,901,902,903,913,914,915,916,960,961,962,963,964,965,966,0]);
+	// console.log(map)
+	// console.log(layer)
+	// console.log(easystar.setAcceptableTiles(layer._mc.tilesets))
+	easystar.enableDiagonals();
+	easystar.findPath(3, 0, 5, 5, function( path ) {
+		console.log("searching for path")
+        if (path === null) {
+	        console.log("The path to the destination point was not found.");
+	    } else {
+	      	console.log("Path found")
+	    	for (var i = 0; i < path.length; i++)
+	    	{
+	    		console.log("P: " + i + ",   X: " + path[i].x + ", Y: " + path[i].y);
+	    	}
+	    	
+	    }
+	});
     // console.log(this.terrain)
     // this.game.terrain = map.createLayer('Terrain');
     // this.game.obj = map.createLayer('Object Layer 1')
