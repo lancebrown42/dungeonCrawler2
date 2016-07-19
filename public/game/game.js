@@ -63,8 +63,8 @@ var map,
     skellycounter,
     currentPlayerXtile,
     currentPlayerYtile,
-    // currentSkellyXTile,
-    // currentSkellyYTile,
+    currentSkellyXTile,
+    currentSkellyYTile,
     // currentNextPointX,
     // currentNextPointY,
     tileSize,
@@ -171,7 +171,7 @@ function create() {
     	game.physics.arcade.collide(this.sprite, terrain);
     	this.currentSkellyXTile = Math.floor(this.sprite.position.x/tileSize)
 		this.currentSkellyYTile = Math.floor(this.sprite.position.y/tileSize)
-		this.currentNextPointX 
+		this.currentNextPointX
 		this.currentNextPointY
 		this.enemyDirection
     	// this.skellyAni.add('walkLeft', [10, 11, 12, 13, 14, 15, 16, 17], 20, true)
@@ -181,7 +181,7 @@ function create() {
 
     }
     skellycounter = 0
-	setInterval(function(){skellyArr.push(new Skelly(skellycounter)); skellycounter++},10000)
+	setInterval(function(){skellyArr.push(new Skelly(skellycounter)); skellycounter++},5000)
 	    
     //*******************************************************************
     x = man.hp/man.totalhp
@@ -201,13 +201,14 @@ function create() {
 	currentPlayerXtile = Math.floor(man.position.x / tileSize)
 	currentPlayerYtile = Math.floor(man.position.y / tileSize)
 	setInterval(function(){
-		for(var j = 0; j < skellycounter; j++){
+		for(var j = 0; j < skellycounter;j++){
 			// currentSkellyXTile = Math.floor(skellyArr[j].sprite.position.x/tileSize)
 			// currentSkellyYTile = Math.floor(skellyArr[j].sprite.position.y/tileSize)
 
 
 			easystar.findPath(skellyArr[j].currentSkellyXTile,skellyArr[j].currentSkellyYTile,currentPlayerXtile,currentPlayerYtile, function( path ) {
 				console.log(skellyArr)
+				console.log(j)
 
 		        if (path === null) {
 			        console.log("The path to the destination point was not found.");
@@ -231,16 +232,16 @@ function create() {
         	    	
         	    	// console.log("GO UP");
         	    	
-        	    	skellyArr[j].enemyDirection = "N";
+        	    	enemyDirection = "N";
         	    	
         	    }
-        	    // else if (currentNextPointX > currentSkellyXTile && currentNextPointY < currentSkellyYTile)
+        	    // else if (currentNextPointX > skellyArr[j].currentSkellyXTile && currentNextPointY < skellyArr[j].currentSkellyYTile)
         	    // {
         	    // 	// right up
         	    	
         	    // 	console.log("GO RIGHT UP");
         	    	
-        	    // 	skellyArr[j].enemyDirection = "NE";
+        	    // 	enemyDirection = "NE";
         	    	
         	    // }
         	    else if (currentNextPointX < skellyArr[j].currentSkellyXTile && currentNextPointY == skellyArr[j].currentSkellyYTile)
@@ -261,7 +262,7 @@ function create() {
         	    	skellyArr[j].enemyDirection = "E";
         	    
         	    }
-        	    // else if (currentNextPointX > currentSkellyXTile && currentNextPointY > currentSkellyYTile)
+        	    // else if (currentNextPointX > skellyArr[j].currentSkellyXTile && currentNextPointY > skellyArr[j].currentSkellyYTile)
         	    // {
         	    // 	// right down
         	    	
@@ -279,7 +280,7 @@ function create() {
         	    	skellyArr[j].enemyDirection = "S";
         	    	
         	    }
-        	    // else if (currentNextPointX < currentSkellyXTile && currentNextPointY > currentSkellyYTile)
+        	    // else if (currentNextPointX < skellyArr[j].currentSkellyXTile && currentNextPointY > skellyArr[j].currentSkellyYTile)
         	    // {
         	    // 	// left down
         	    	
@@ -297,25 +298,25 @@ function create() {
 			})
 			easystar.calculate()
 				var enemySpeed = 90;
-				for(var j = 0; j < skellycounter; j++){
+				for(var k = 0; k < skellycounter; k++){
 		       
-		        if (skellyArr[j].enemyDirection == "N") {
-		        	skellyArr[j].sprite.body.velocity.x = -enemySpeed;
-		        	skellyArr[j].sprite.body.velocity.y = -enemySpeed;
+		        if (skellyArr[k].enemyDirection == "N") {
+		        	skellyArr[k].sprite.body.velocity.x = -enemySpeed;
+		        	skellyArr[k].sprite.body.velocity.y = -enemySpeed;
 		        }
-		        else if (skellyArr[j].enemyDirection == "S")
+		        else if (skellyArr[k].enemyDirection == "S")
 		        {
-		        	skellyArr[j].sprite.body.velocity.x = enemySpeed;
-		        	skellyArr[j].sprite.body.velocity.y = enemySpeed;
+		        	skellyArr[k].sprite.body.velocity.x = enemySpeed;
+		        	skellyArr[k].sprite.body.velocity.y = enemySpeed;
 		        }
-		        else if (skellyArr[j].enemyDirection == "E") {
-		        	skellyArr[j].sprite.body.velocity.x = enemySpeed;
-		        	skellyArr[j].sprite.body.velocity.y = -enemySpeed;
+		        else if (skellyArr[k].enemyDirection == "E") {
+		        	skellyArr[k].sprite.body.velocity.x = enemySpeed;
+		        	skellyArr[k].sprite.body.velocity.y = -enemySpeed;
 		        }
-		        else if (skellyArr[j].enemyDirection == "W")
+		        else if (skellyArr[k].enemyDirection == "W")
 		        {
-		        	skellyArr[j].sprite.body.velocity.x = -enemySpeed;
-		        	skellyArr[j].sprite.body.velocity.y = enemySpeed;
+		        	skellyArr[k].sprite.body.velocity.x = -enemySpeed;
+		        	skellyArr[k].sprite.body.velocity.y = enemySpeed;
 		        }
 		        // else if (skellyArr[j].enemyDirection == "SE")
 		        // {
@@ -338,15 +339,15 @@ function create() {
 		        // 	cowboy.body.velocity.x = 0;
 		        // 	cowboy.body.velocity.y = -enemySpeed;
 		        // }
-		        else if (skellyArr[j].enemyDirection == "STOP")
+		        else if (skellyArr[k].enemyDirection == "STOP")
 		        {
-		        	skellyArr[j].sprite.body.velocity.x = 0;
-		        	skellyArr[j].sprite.body.velocity.y = 0;
+		        	skellyArr[k].sprite.body.velocity.x = 0;
+		        	skellyArr[k].sprite.body.velocity.y = 0;
 		        }
-		        else // JUST IN CASE IF enemyDirection wouldnt exist we stop the skellyArr[j].sprite movement
+		        else // kUST IN CASE IF enemyDirection wouldnt exist we stop the skellyArr[k].sprite movement
 		        {
-		        	skellyArr[j].sprite.body.velocity.x = 0;
-		        	skellyArr[j].sprite.body.velocity.y = 0;
+		        	skellyArr[k].sprite.body.velocity.x = 0;
+		        	skellyArr[k].sprite.body.velocity.y = 0;
 		        }
 			    
 		}
