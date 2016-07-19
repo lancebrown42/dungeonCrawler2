@@ -205,54 +205,35 @@ function create() {
 	setInterval(function(){
 		skellyArr.forEach(function(skelly){
 
-			
-			// currentSkellyXTile = Math.floor(skelly.sprite.position.x/tileSize)
-			// currentSkellyYTile = Math.floor(skelly.sprite.position.y/tileSize)
-			// console.log(skelly.currentSkellyXTile)
-			// console.log("Length", skellyArr.length)
-			// console.log("Skelly: ", skelly)
-			// console.log("CurrentXTile: ",skelly.currentSkellyXTile)
-			// console.log(j)
 
 			easystar.findPath(skelly.currentSkellyXTile,skelly.currentSkellyYTile,currentPlayerXtile,currentPlayerYtile, function( path ) {
-				// console.log(skellyArr)
-				// console.log(j)
-				// console.log(path)
+
 
 		        if (path === null) {
 			        console.log("The path to the destination point was not found.");
 			    }
-			    if(path){
+			    if(path[1]){
 			    	currentNextPointX = path[1].x;
 	        	    currentNextPointY = path[1].y;
 			    	
 			    }
-			    // console.log(skelly)
+
         	    if (currentNextPointX == skelly.currentSkellyXTile && currentNextPointY < skelly.currentSkellyYTile)
         	    {
         	    	// up
-        	    	
-        	    	// console.log("GO UP");
-        	    	
         	    	skelly.enemyDirection = "N";
         	    	
         	    }
 
         	    else if (currentNextPointX < skelly.currentSkellyXTile && currentNextPointY == skelly.currentSkellyYTile)
         	    {
-        	    	// left
-        	    	
-        	    	// console.log("GO LEFT");
-        	    	
+        	    	// left	
         	    	skelly.enemyDirection = "W";
         	    	
         	    }
         	    else if (currentNextPointX > skelly.currentSkellyXTile && currentNextPointY == skelly.currentSkellyYTile)
         	    {
         	    	// right
-        	    	
-        	    	// console.log("GO RIGHT");
-        	    	
         	    	skelly.enemyDirection = "E";
         	    
         	    }
@@ -260,18 +241,12 @@ function create() {
         	    else if (currentNextPointX == skelly.currentSkellyXTile && currentNextPointY > skelly.currentSkellyYTile)
         	    {
         	    	// down
-        	    	
-        	    	// console.log("GO DOWN");
-        	    	
         	    	skelly.enemyDirection = "S";
-        	    	
         	    }
 
         	    else
         	    {
-        	    	
         	    	skelly.enemyDirection = "STOP";
-        	    	
         	    }
 			})
 			easystar.calculate()
@@ -289,14 +264,7 @@ function create() {
     // var terrainCollisionGroup = this.physics.p2.createCollisionGroup();
     // this.physics.p2.updateBoundsCollisionGroup();
     game.physics.arcade.enable(man)
-    // game.physics.arcade.enable(helm)
-    // game.physics.arcade.enable(shoes)
-    // game.physics.arcade.enable(chest)
-    // game.physics.arcade.enable(pants)
-    // helm.enableBody = true
-    // pants.enableBody = true
-    // chest.enableBody = true
-    // shoes.enableBody = true
+
 
 
     //*****************************************************************
@@ -458,28 +426,30 @@ function update() {
     }
     var enemySpeed = 90;
 				skellyArr.forEach(function(skelly){
+					skelly.sprite.body.velocity.x = 0;
+		        	skelly.sprite.body.velocity.y = 0;
 		       
 		        if (skelly.enemyDirection == "N") {
-		        	skelly.sprite.body.velocity.x = -enemySpeed;
+		        	skelly.sprite.body.velocity.x = 0
 		        	skelly.sprite.body.velocity.y = -enemySpeed;
 		        	
 
 		        }
 		        else if (skelly.enemyDirection == "S")
 		        {
-		        	skelly.sprite.body.velocity.x = enemySpeed;
+		        	skelly.sprite.body.velocity.x = 0
 		        	skelly.sprite.body.velocity.y = enemySpeed;
 		        	
 		        }
 		        else if (skelly.enemyDirection == "E") {
 		        	skelly.sprite.body.velocity.x = enemySpeed;
-		        	skelly.sprite.body.velocity.y = -enemySpeed;
+		        	skelly.sprite.body.velocity.y = 0
 		        	
 		        }
 		        else if (skelly.enemyDirection == "W")
 		        {
 		        	skelly.sprite.body.velocity.x = -enemySpeed;
-		        	skelly.sprite.body.velocity.y = enemySpeed;
+		        	skelly.sprite.body.velocity.y = 0
 		        	
 		        }
 
@@ -494,7 +464,7 @@ function update() {
 		        	skelly.sprite.body.velocity.y = 0;
 		        }
 		        //update skelly position
-		        
+
 		        skelly.currentSkellyXTile = Math.floor(skelly.sprite.position.x/tileSize)
 				skelly.currentSkellyYTile = Math.floor(skelly.sprite.position.y/tileSize)
 			    
