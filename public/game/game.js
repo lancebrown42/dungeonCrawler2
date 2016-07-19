@@ -101,7 +101,7 @@ function create() {
 	console.log(pathArr)
 	// console.log(acceptableTiles)
 	easystar.setAcceptableTiles(acceptableTiles);
-	easystar.setIterationsPerCalculation(1000)
+	easystar.setIterationsPerCalculation(10000)
 	tileSize = 32
 
 
@@ -152,8 +152,16 @@ function create() {
     man.addChild(pants)
     man.addChild(chest)
     man.scale.setTo(0.5,0.5);
-    // man.anchor.x = 0.5
-    // man.anchor.y = 0.5
+    man.anchor.x = 0.5
+    man.anchor.y = 0.9
+    helm.anchor.x = 0.5
+    helm.anchor.y = 0.9
+    shoes.anchor.x = 0.5
+    shoes.anchor.y = 0.9
+    pants.anchor.x = 0.5
+    pants.anchor.y = 0.9
+    chest.anchor.x = 0.5
+    chest.anchor.y = 0.9
 
     //*******************************************************************
     // load in baddies
@@ -193,14 +201,17 @@ function create() {
     deathbar = game.add.graphics(0,0)
 	healthbar = game.add.graphics(0,0)
 
+
+
+
 	deathbar.lineStyle(2,"fff",1)
 	healthbar.clear()
 	healthbar.lineStyle(2,"fff",1)
 
 	deathbar.beginFill(0xFF0000)
 	healthbar.beginFill(0x00FF00)
-	deathbar.drawRoundedRect(man.position.x-36,man.position.y-50,32,10,5)
-	healthbar.drawRoundedRect(man.position.x - 36, man.position.y - 50, 32*x, 10, 5)
+	deathbar.drawRoundedRect(man.position.x-68,man.position.y-110,32,10,5)
+	healthbar.drawRoundedRect(man.position.x - 68, man.position.y - 110, 32*x, 10, 5)
 	man.addChild(deathbar)
 	man.addChild(healthbar)
 	currentPlayerXtile = Math.floor(man.position.x / tileSize)
