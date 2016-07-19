@@ -52,7 +52,7 @@
 961,967,963,963,961,964,965,963,965,964,964,962,966,965,967,964,965,967,962,961,967,965,962,966,964,961,964,962,967,967,965,961,962,962,964,963,961,963,967,967
 </data>
  </layer>
- <objectgroup name="Items">
+ <objectgroup name="Items" visible="0">
   <object id="18" name="axe" type="weapon" gid="1858" x="148" y="573" width="32" height="32">
    <properties>
     <property name="sprite" value="axe"/>

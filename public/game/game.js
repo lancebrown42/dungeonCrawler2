@@ -151,7 +151,9 @@ function create() {
     man.addChild(shoes)
     man.addChild(pants)
     man.addChild(chest)
-    man.scale.setTo(0.5, 0.5);
+    man.scale.setTo(0.5,0.5);
+    // man.anchor.x = 0.5
+    // man.anchor.y = 0.5
 
     //*******************************************************************
     // load in baddies
@@ -176,10 +178,10 @@ function create() {
 		this.enemyDirection
 		this.sprite.anchor.x = 0.5
 		this.sprite.anchor.y = 0.9
-    	// this.skellyAni.add('walkLeft', [10, 11, 12, 13, 14, 15, 16, 17], 20, true)
-	    // this.skellyAni.add('walkRight', [28, 29, 30, 31, 32, 33, 34, 35], 20, true)
-	    // this.skellyAni.add('walkUp', [1, 2, 3, 4, 5, 6, 7, 8], 20, true)
-	    // this.skellyAni.add('walkDown', [19, 20, 21, 22, 23, 24, 25, 26], 20, true)
+    	this.sprite.animations.add('walkLeft', [10, 11, 12, 13, 14, 15, 16, 17], 20, true)
+	    this.sprite.animations.add('walkRight', [28, 29, 30, 31, 32, 33, 34, 35], 20, true)
+	    this.sprite.animations.add('walkUp', [1, 2, 3, 4, 5, 6, 7, 8], 20, true)
+	    this.sprite.animations.add('walkDown', [19, 20, 21, 22, 23, 24, 25, 26], 20, true)
 
     }
     skellycounter = 0
@@ -212,6 +214,7 @@ function create() {
 
 		        if (path === null) {
 			        console.log("The path to the destination point was not found.");
+			        // return
 			    }
 			    if(path[1]){
 			    	currentNextPointX = path[1].x;
@@ -353,7 +356,7 @@ function update() {
 
 	    game.physics.arcade.collide(skelly, terrain)
     })
-    if (skellyArr.length > 10){
+    if (skellyArr.length > 5){
 		clearInterval(spawnInterval)
 	}
     game.physics.arcade.collide(man, terrain);
@@ -427,12 +430,12 @@ function update() {
     }
     var enemySpeed = 90;
 				skellyArr.forEach(function(skelly){
-					skelly.sprite.body.velocity.x = 0;
-		        	skelly.sprite.body.velocity.y = 0;
+
 		       
 		        if (skelly.enemyDirection == "N") {
 		        	skelly.sprite.body.velocity.x = 0
 		        	skelly.sprite.body.velocity.y = -enemySpeed;
+		        	skelly.sprite.animations.play("walkUp",10,false)
 		        	
 
 		        }
@@ -440,18 +443,20 @@ function update() {
 		        {
 		        	skelly.sprite.body.velocity.x = 0
 		        	skelly.sprite.body.velocity.y = enemySpeed;
+		        	skelly.sprite.animations.play("walkDown",10,false)
 		        	
 		        }
 		        else if (skelly.enemyDirection == "E") {
 		        	skelly.sprite.body.velocity.x = enemySpeed;
 		        	skelly.sprite.body.velocity.y = 0
+		        	skelly.sprite.animations.play("walkRight",10,false)
 		        	
 		        }
 		        else if (skelly.enemyDirection == "W")
 		        {
 		        	skelly.sprite.body.velocity.x = -enemySpeed;
 		        	skelly.sprite.body.velocity.y = 0
-		        	
+		        	skelly.sprite.animations.play("walkLeft",10,false)
 		        }
 
 		        else if (skelly.enemyDirection == "STOP")
