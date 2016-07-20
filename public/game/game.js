@@ -154,7 +154,7 @@ function create() {
 
     man = game.add.sprite(50, 50, 'man');
     man.inventory = { "armor": "leather", "weapon": "", "gold": "0" }
-    man.hp = 50
+    man.hp = 10
     man.totalhp = 50
     man.strength = 10
     man.alive = true
@@ -639,10 +639,14 @@ function death(player){
     player.hp = 100
     man.visible = false
     var drop = player.inventory.weapon
+    // console.log(drop)
     var drop2 = player.inventory.gold
 
     var newSprite = game.add.sprite(player.position.x, player.position.y, drop.name)
+    newSprite.name = drop.name
+    console.log(newSprite)
     weapons.add(newSprite)
+    console.log(weapons)
     player.inventory.weapon = ""
     player.inventory.gold = ""
 
