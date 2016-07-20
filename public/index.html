@@ -13,6 +13,11 @@
          <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="styles/main.css" type="text/css" />
         <script type="text/javascript" src="bower_components/Materialize/bin/materialize.js"></script>
+        <script type="text/javascript"> $(document).ready(function(){
+    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+    $('.modal-trigger').leanModal();
+  });
+        </script>
         
 
     </head>
@@ -30,7 +35,8 @@
 	        <ul class="right hide-on-med-and-down">
 	            <li><a ui-sref = "game">Game</a></li>
 	            <li><a ui-sref = "contact">Contact</a></li>
-	            <li><a ui-sref = "login">Login</a></li>
+	             <li> <a class="modal-trigger" href="#loginModal">Login</a></li>
+	            <!-- <li><a ui-sref = "login">Login</a></li> -->
 	            <!-- Dropdown Trigger -->
 	            <li><a class="dropdown-button" href="#!" data-activates="dropdown1">More<i class="material-icons right">arrow_drop_down</i></a></li>
 	        </ul>
@@ -43,6 +49,41 @@
           </ul>
 	    </div>
 	</nav>
+	 <!-- Modal Structure -->
+  <div id="loginModal" class="modal" ng-controller="userController as uCtrl">
+    <div class="modal-content">
+      <h4>Login</h4>
+      	<form ng-submit=uCtrl.login() novalidate>
+      		<label for="email">Email Address</label>
+      		<input class="form-control" placeholder="Enter your email address" name="email" ng-model="uCtrl.userMonkey.username">
+      		<label for="password">Password</label>
+          	<input class="form-control" type='password' placeholder="password" name="email" ng-model="uCtrl.userMonkey.password">
+      		
+      	</form>
+
+    </div>
+    <div class="modal-footer">
+      <a href="#create" class=" modal-action modal-close waves-effect waves-green btn-flat">Create Account</a>
+      <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Login</a>
+    </div>
+  </div>
+  <!-- <div id="create" class="modal" ng-controller="userController as uCtrl">
+    <div class="modal-content">
+      <h4>New Account</h4>
+      	<form ng-submit=uCtrl.login() novalidate>
+      		<label for="email">Email Address</label>
+      		<input class="form-control" placeholder="Enter your email address" name="email" ng-model="uCtrl.userMonkey.username">
+      		<label for="password">Password</label>
+          	<input class="form-control" type='password' placeholder="password" name="email" ng-model="uCtrl.userMonkey.password">
+      		
+      	</form>
+
+    </div>
+    <div class="modal-footer">
+      <a href="#create" class=" modal-action modal-close waves-effect waves-green btn-flat">Create Account</a>
+      <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Login</a>
+    </div>
+  </div> -->
 
 
 		<div id = "gameDiv"></div>
@@ -53,5 +94,8 @@
 		<script type="text/javascript" src ="game/play.js" ></script>
 		<script type="text/javascript" ng-if = "location.path() == '/#/game'" src ="game/game.js" ></script> -->
     	<script type="text/javascript" src = "js/app.js"></script>
+    	<script type="text/javascript" src = "controllers/userController.js"></script>
+    	
+    	<!-- <script type="text/javascript" src = "controllers/userController.js"></script> -->
     </body>
 </html>

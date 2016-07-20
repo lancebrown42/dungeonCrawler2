@@ -1,5 +1,6 @@
 angular.module('gameApp', ['ui.router'])
     .config(configRouter)
+    .controller('gameController', gameController)
 
 configRouter.$inject = ['$stateProvider', '$urlRouterProvider']
 function configRouter($stateProvider, $urlRouterProvider){
@@ -11,16 +12,23 @@ function configRouter($stateProvider, $urlRouterProvider){
         })
         .state('game', {
             url : '/game',
-            templateUrl : '/html/game.html'
-            // controller : 'gameController as gCtrl'
+            templateUrl : '/html/game.html',
+            controller : 'gameController as gCtrl'
         })
         .state('login',{
             url: '/login',
             templateUrl : '/html/login.html',
-            controller : 'loginController as lCtrl'
+            controller : 'userController as uCtrl'
         })
     $urlRouterProvider.otherwise('/')
 }
+gameController.$inject = ['$http', '$stateParams']
+
+    function gameController($http, $stateParams){
+        var gCtrl = this
+        gCtrl.kills = 0
+        gCtrl.score = gCtrl.kills*10
+    }
 // function() {
 //     angular.module('userFactoryMODULE',[])
 //       .factory('userFactory',userFactory)

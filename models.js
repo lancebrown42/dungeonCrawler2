@@ -1,6 +1,6 @@
 var mongoose = require("mongoose")
 
-var userSchema = mongoose.Schema({
+var userSchema = new mongoose.Schema({
 	username: {
       type: String,
       unique: true,
@@ -16,10 +16,26 @@ var userSchema = mongoose.Schema({
       type: String,
       required: true
    },
+   score: {
+   	type: Number
+   },
+   kills: {
+   	type: Number
+   },
+   armor: {
+   	type: String
+   },
+   gold: {
+   	type: Number
+   },
+   health: {
+   	type: Number
+   },
+   position: {
+   	type: Array
+   }
 })
 
 
 var User = mongoose.model('User', userSchema)
-module.exports = {
-	User : User,
-}
+module.exports = User

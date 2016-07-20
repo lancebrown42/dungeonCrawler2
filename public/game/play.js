@@ -28,10 +28,13 @@
     skellyArr,
     killList,
     spawn,
-    maxSkellies
+    maxSkellies,
+    kills,
+    playerObj
 
 var pathArr = []
 var acceptableTiles = []
+playerObj = {"kills": kills}
 $.getJSON("../assets/maps/testmap.json", function(json) {
     // console.log(json.layers[0])
     var ph = json.layers[0].data;
@@ -84,7 +87,7 @@ function death(player){
     deadimate = dead.animations
     deadimate.add('die', [0,1,2,3,4,5], 5, true)
     deadimate.play('die',5,false)
-    player.hp = 100
+    player.hp = player.totalhp
     man.visible = false
     var drop = player.inventory.weapon
     // console.log(drop)
@@ -98,13 +101,13 @@ function death(player){
     player.inventory.weapon = ""
     player.inventory.gold = ""
 
-    setTimeout(function(){player.reset(Math.floor(Math.random()*1000),Math.floor(Math.random()*1000));player.body.moves = true; player.hp = player.totalhp},5000)
+    setTimeout(function(){player.reset(50,50);player.body.moves = true; player.hp = player.totalhp},5000)
 
 
 
 }
 function damage(player){
-    player.hp -= (Math.floor(Math.random()*6))
+    player.hp -= (Math.floor(Math.random()*6)+3)
     game.add.tween(player).to({
         tint: 0xff0000d,
     }, 100, Phaser.Easing.Exponential.Out, true, 0, 0, true);
@@ -133,12 +136,20 @@ function slash(unit){
                     skelly.sprite.animations.play('skellyDeath',5,false)
                     skelly.sprite.visible = false
                     killList.push(skellyArr.shift())
+                    playerObj.kills++
                     skelly.hp = null
                     skelly.sprite.destroy()
+                    $.ajax({
+                      type: "POST",
+                      url: "api/v0/users",
+                      data: killList.length,
+                      success: function(){console.log("posted")},
+                      dataType: "json"
+                    });
 
 
                 }
-                console.log(skelly.hp)
+                // console.log(skelly.hp)
 
             }
         })
@@ -158,7 +169,15 @@ function slash(unit){
                     skelly.sprite.animations.play('skellyDeath',5,false)
                     skelly.sprite.visible = false
                     killList.push(skellyArr.shift())
+                    playerObj.kills++
                     skelly.hp = null
+                    $.ajax({
+                      type: "POST",
+                      url: "api/v0/users",
+                      data: killList.length,
+                      success: function(){console.log("posted")},
+                      dataType: "json"
+                    });
 
 
                 }
@@ -182,7 +201,15 @@ function slash(unit){
                     skelly.sprite.animations.play('skellyDeath',5,false)
                     skelly.sprite.visible = false
                     killList.push(skellyArr.shift())
+                    playerObj.kills++
                     skelly.hp = null
+                    $.ajax({
+                      type: "POST",
+                      url: "api/v0/users",
+                      data: killList.length,
+                      success: function(){console.log("posted")},
+                      dataType: "json"
+                    });
 
 
                 }
@@ -206,7 +233,15 @@ function slash(unit){
                     skelly.sprite.animations.play('skellyDeath',5,false)
                     skelly.sprite.visible = false
                     killList.push(skellyArr.shift())
+                    playerObj.kills++
                     skelly.hp = null
+                    $.ajax({
+                      type: "POST",
+                      url: "api/v0/users",
+                      data: killList.length,
+                      success: function(){console.log("posted")},
+                      dataType: "json"
+                    });
 
 
                 }
@@ -329,7 +364,7 @@ create: function() {
 
     man = game.add.sprite(50, 50, 'man');
     man.inventory = { "armor": "leather", "weapon": "", "gold": "0" }
-    man.hp = 10
+    man.hp = 50
     man.totalhp = 50
     man.strength = 10
     man.alive = true
@@ -745,7 +780,7 @@ update: function() {
 
         } else if (man.body.blocked.down) {
 
-            console.log(man)
+            // console.log(man)
 
             // on the ground. same as man.body.onFloor() ??
 

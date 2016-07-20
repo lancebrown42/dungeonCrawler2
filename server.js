@@ -5,6 +5,7 @@ var bodyParser = require('body-parser');
 var logger = require('morgan');
 var session = require('express-session')
 var mongoose = require('mongoose');
+var apiRouter = require('./api-routes')
 // Create Express App Object \\
 var app = express();
 
@@ -15,6 +16,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
+app.use('/api/v0', apiRouter)
 // Setting up Express session
 app.sessionMiddleware = session({
   secret: 'keyboard cat',
@@ -26,7 +28,7 @@ app.sessionMiddleware = session({
 
 // Mongo \\
 // Connecting to mongoose for users DB
-mongoose.connect('mongodb://localhost/user',
+mongoose.connect('mongodb://localhost/User',
   function(err){
     if(err){
       console.error('ERROR starting mongoose!', err)
@@ -108,22 +110,14 @@ app.post('/login', function(req, res, next){
   })(req, res, next)
 })
 
-app.get('/currentuser', function(req, res, next){
-  if(req.user){
-    console.log(req.user)
-    res.json(req.user)
-  }
-  else{
-    next()
-  }
-})
+
 
 app.get('/logout', function(req, res){
   req.logout()
   res.redirect('/')
 })
 // User API routes
-var userCtrl = require('./public/controllers/userController.js')
+var userCtrl = require('./userController.js')
 // app.get('/api/v1/users/:id', userCtrl.get)
 // app.put('/api/v1/users/:id', userCtrl.update)
 
