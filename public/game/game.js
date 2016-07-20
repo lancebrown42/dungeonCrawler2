@@ -23,7 +23,8 @@ $.getJSON("assets/maps/testmap.json", function(json) {
 function preload() {
     game.load.tilemap('overworld', 'assets/maps/testmap.json', null, Phaser.Tilemap.TILED_JSON)
     game.load.spritesheet('man', 'assets/walkcycle/BODY_male.png', 64, 64)
-    game.load.spritesheet('skelly','assets/walkcycle/BODY_skeleton_small.png',32,32)
+    game.load.spritesheet('skelly','assets/walkcycle/BODY_skeleton.png',64,64)
+    game.load.spritesheet('skellyDeath','assets/hurt/BODY_skeleton.png',64,64)
     game.load.spritesheet('death','assets/hurt/BODY_male.png',64,64)
     game.load.spritesheet('plateShoes', 'assets/walkcycle/FEET_plate_armor_shoes.png', 64, 64)
     game.load.spritesheet('plateHelm', 'assets/walkcycle/HEAD_plate_armor_helmet.png', 64, 64)
@@ -70,7 +71,9 @@ var map,
     // currentNextPointX,
     // currentNextPointY,
     tileSize,
-    skellyArr
+    skellyArr,
+    killList,
+    spawn
 
 
 function create() {
@@ -98,7 +101,7 @@ function create() {
 
     var easystar = new EasyStar.js();
 	easystar.setGrid(pathArr);
-	console.log(pathArr)
+
 	// console.log(acceptableTiles)
 	easystar.setAcceptableTiles(acceptableTiles);
 	easystar.setIterationsPerCalculation(10000)
@@ -141,6 +144,7 @@ function create() {
     man.totalhp = 100
     man.strength = 10
     man.alive = true
+    killList = []
 
         //*****************************************************************
     helm = game.add.sprite(0,0, man.inventory.armor + 'Helm');
@@ -184,16 +188,23 @@ function create() {
 		this.currentNextPointX
 		this.currentNextPointY
 		this.enemyDirection
+		this.sprite.scale.setTo(0.5,0.5)
 		this.sprite.anchor.x = 0.5
 		this.sprite.anchor.y = 0.9
     	this.sprite.animations.add('walkLeft', [10, 11, 12, 13, 14, 15, 16, 17], 20, true)
 	    this.sprite.animations.add('walkRight', [28, 29, 30, 31, 32, 33, 34, 35], 20, true)
 	    this.sprite.animations.add('walkUp', [1, 2, 3, 4, 5, 6, 7, 8], 20, true)
 	    this.sprite.animations.add('walkDown', [19, 20, 21, 22, 23, 24, 25, 26], 20, true)
+	    this.sprite.animations.add('skellyDeath',[0,1,2,3,4,5], 5, true)
 
     }
     skellycounter = 0
-	spawnInterval = setInterval(function(){skellyArr.push(new Skelly(skellycounter)); skellycounter++},5000)
+    spawn = function (){
+    	spawnInterval = setInterval(function(){
+    		skellyArr.push(new Skelly(skellycounter)); 
+    		skellycounter++},5000)}
+    spawn()
+	
 	
 	    
     //*******************************************************************
@@ -517,6 +528,11 @@ function update() {
         man.alive = false
         death(man)
     }
+    skellyArr.forEach(function(skelly){
+    	if(skelly.hp<=0){
+    		
+    	}
+    })
     currentPlayerXtile = Math.floor(man.body.position.x / tileSize);
 	currentPlayerYtile = Math.floor(man.body.position.y / tileSize);	
 
@@ -570,6 +586,9 @@ function death(player){
     var drop2 = player.inventory.gold
 
     var newSprite = game.add.sprite(player.position.x, player.position.y, drop.name)
+    weapons.add(newSprite)
+    player.inventory.weapon = ""
+    player.inventory.gold = ""
 
     setTimeout(function(){player.reset(Math.floor(Math.random()*1000),Math.floor(Math.random()*1000));player.body.moves = true; player.hp = player.totalhp},5000)
 
@@ -577,7 +596,97 @@ function death(player){
 
 }
 function slash(unit){
-	unit.hp --
-	console.log(unit.hp)
+	var pos = [unit.position.x,unit.position.y]
+	console.log(pos)
+	var dmg
+	if(unit.facing == "up"){
+		skellyArr.forEach(function(skelly){
+			var skellPos = [skelly.sprite.position.x,skelly.sprite.position.y]
+			// console.log("skelly ",skelly.number," position=",skellPos)
+			if (skellPos[0] >= pos[0] - 16 && skellPos[0] <= pos[0] + 16 && skellPos[1] >= pos[1]- 32 && skellPos[1] <= pos[1]){dmg = Math.floor(Math.random()*7 +3);
+				skelly.hp-=dmg
+				if(skelly.hp <= 0){
+					skelly.alive = false
+		    		skelly.sprite.moves = false
+		    		skelly.sprite.animations.play('skellyDeath',5,false)
+		    		skelly.sprite.visible = false
+		    		killList.push(skellyArr.shift())
+		    		skelly.hp = null
+		    		spawn()
+
+				}
+				console.log(skelly.hp)
+
+			}
+		})
+	
+	} else if (unit.facing == "right"){
+		skellyArr.forEach(function(skelly){
+			var skellPos = [skelly.sprite.position.x,skelly.sprite.position.y]
+			// console.log("skelly ",skelly.number," position=",skellPos)
+			if (skellPos[0] <= pos[0] - 32 && skellPos[0] >= pos[0] + 32 && skellPos[1] >= pos[1]- 16 && skellPos[1] <= pos[1]){dmg = Math.floor(Math.random()*7 +3);
+				skelly.hp-=dmg
+				if(skelly.hp <= 0){
+					skelly.alive = false
+		    		skelly.sprite.moves = false
+		    		skelly.sprite.animations.play('skellyDeath',5,false)
+		    		skelly.sprite.visible = false
+		    		killList.push(skellyArr.shift())
+		    		skelly.hp = null
+		    		spawn()
+
+				}
+				console.log(skelly.hp)
+
+			}
+		})
+
+	} else if (unit.facing == "down"){
+		skellyArr.forEach(function(skelly){
+			var skellPos = [skelly.sprite.position.x,skelly.sprite.position.y]
+			// console.log("skelly ",skelly.number," position=",skellPos)
+			if (skellPos[0] >= pos[0] - 16 && skellPos[0] <= pos[0] + 16 && skellPos[1] <= pos[1]- 32 && skellPos[1] >= pos[1]){dmg = Math.floor(Math.random()*7 +3);
+				skelly.hp-=dmg
+				if(skelly.hp <= 0){
+					skelly.alive = false
+		    		skelly.sprite.moves = false
+		    		skelly.sprite.animations.play('skellyDeath',5,false)
+		    		skelly.sprite.visible = false
+		    		killList.push(skellyArr.shift())
+		    		skelly.hp = null
+		    		spawn()
+
+				}
+				console.log(skelly.hp)
+
+			}
+		})
+
+	} else if (unit.facing == "left"){
+		skellyArr.forEach(function(skelly){
+			var skellPos = [skelly.sprite.position.x,skelly.sprite.position.y]
+			// console.log("skelly ",skelly.number," position=",skellPos)
+			if (skellPos[0] >= pos[0] - 16 && skellPos[0] <= pos[0] + 16 && skellPos[1] >= pos[1]- 32 && skellPos[1] <= pos[1]){dmg = Math.floor(Math.random()*7 +3);
+				skelly.hp-=dmg
+				if(skelly.hp <= 0){
+					skelly.alive = false
+		    		skelly.sprite.moves = false
+		    		skelly.sprite.animations.play('skellyDeath',5,false)
+		    		skelly.sprite.visible = false
+		    		killList.push(skellyArr.shift())
+		    		skelly.hp = null
+		    		spawn()
+
+				}
+				console.log(skelly.hp)
+
+			}
+		})
+
+	} else {
+		console.log("you done goofed"); 
+		unit.hp--
+	}
+
 
 }
