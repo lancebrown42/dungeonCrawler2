@@ -345,32 +345,58 @@ function create() {
     pantsAni = pants.animations
     chestAni = chest.animations
 
+
+
         //*************************************************************
     manimation.add('walkLeft', [10, 11, 12, 13, 14, 15, 16, 17], 20, true)
     manimation.add('walkRight', [28, 29, 30, 31, 32, 33, 34, 35], 20, true)
     manimation.add('walkUp', [1, 2, 3, 4, 5, 6, 7, 8], 20, true)
     manimation.add('walkDown', [19, 20, 21, 22, 23, 24, 25, 26], 20, true)
+    manimation.add('manSlashUp', [1, 2, 3, 4, 5, 6, 7, 8], 20, true)
+    manimation.add('manSlashRight', [28, 29, 30, 31, 32, 33, 34, 35], 20, true)
+    manimation.add('manSlashLeft', [10, 11, 12, 13, 14, 15, 16, 17], 20, true)
+    manimation.add('manSlashDown', [19, 20, 21, 22, 23, 24, 25, 26], 20, true)
         //*************************************************************
     helmAni.add('walkLeft', [10, 11, 12, 13, 14, 15, 16, 17], 20, true)
     helmAni.add('walkRight', [28, 29, 30, 31, 32, 33, 34, 35], 20, true)
     helmAni.add('walkUp', [1, 2, 3, 4, 5, 6, 7, 8], 20, true)
     helmAni.add('walkDown', [19, 20, 21, 22, 23, 24, 25, 26], 20, true)
+    helmAni.add('pantsSlashUp', [10, 11, 12, 13, 14, 15, 16, 17], 20, true)
+    helmAni.add('helmSlashRight', [28, 29, 30, 31, 32, 33, 34, 35], 20, true)
+    helmAni.add('helmSlashLeft', [1, 2, 3, 4, 5, 6, 7, 8], 20, true)
+    helmAni.add('helmSlashDown', [19, 20, 21, 22, 23, 24, 25, 26], 20, true)
         //*************************************************************
     shoesAni.add('walkLeft', [10, 11, 12, 13, 14, 15, 16, 17], 20, true)
     shoesAni.add('walkRight', [28, 29, 30, 31, 32, 33, 34, 35], 20, true)
     shoesAni.add('walkUp', [1, 2, 3, 4, 5, 6, 7, 8], 20, true)
     shoesAni.add('walkDown', [19, 20, 21, 22, 23, 24, 25, 26], 20, true)
+    shoesAni.add('pantsSlashUp', [10, 11, 12, 13, 14, 15, 16, 17], 20, true)
+    shoesAni.add('shoesSlashRight', [28, 29, 30, 31, 32, 33, 34, 35], 20, true)
+    shoesAni.add('shoesSlashLeft', [1, 2, 3, 4, 5, 6, 7, 8], 20, true)
+    shoesAni.add('shoesSlashDown', [19, 20, 21, 22, 23, 24, 25, 26], 20, true)
         //*************************************************************
     chestAni.add('walkLeft', [10, 11, 12, 13, 14, 15, 16, 17], 20, true)
     chestAni.add('walkRight', [28, 29, 30, 31, 32, 33, 34, 35], 20, true)
     chestAni.add('walkUp', [1, 2, 3, 4, 5, 6, 7, 8], 20, true)
     chestAni.add('walkDown', [19, 20, 21, 22, 23, 24, 25, 26], 20, true)
+    chestAni.add('pantsSlashUp', [10, 11, 12, 13, 14, 15, 16, 17], 20, true)
+    chestAni.add('chestSlashRight', [28, 29, 30, 31, 32, 33, 34, 35], 20, true)
+    chestAni.add('chestSlashLeft', [1, 2, 3, 4, 5, 6, 7, 8], 20, true)
+    chestAni.add('chestSlashDown', [19, 20, 21, 22, 23, 24, 25, 26], 20, true)
         //*************************************************************
     pantsAni.add('walkLeft', [10, 11, 12, 13, 14, 15, 16, 17], 20, true)
     pantsAni.add('walkRight', [28, 29, 30, 31, 32, 33, 34, 35], 20, true)
     pantsAni.add('walkUp', [1, 2, 3, 4, 5, 6, 7, 8], 20, true)
     pantsAni.add('walkDown', [19, 20, 21, 22, 23, 24, 25, 26], 20, true)
+    pantsAni.add('pantsSlashUp', [10, 11, 12, 13, 14, 15, 16, 17], 20, true)
+    pantsAni.add('pantsSlashRight', [28, 29, 30, 31, 32, 33, 34, 35], 20, true)
+    pantsAni.add('pantsSlashLeft', [1, 2, 3, 4, 5, 6, 7, 8], 20, true)
+    pantsAni.add('pantsSlashDown', [19, 20, 21, 22, 23, 24, 25, 26], 20, true)
+        //*************************************************************        //*************************************************************
+
         //*************************************************************
+
+
     keyUp = game.input.keyboard.addKey(Phaser.Keyboard.W)
     keyDown = game.input.keyboard.addKey(Phaser.Keyboard.S)
     keyLeft = game.input.keyboard.addKey(Phaser.Keyboard.A)
@@ -641,6 +667,7 @@ function slash(unit){
 	console.log(pos)
 	var dmg
 	if(unit.facing == "up"){
+		manimation.play("manSlashUp",10,false)
 		skellyArr.forEach(function(skelly){
 			var skellPos = [skelly.sprite.position.x,skelly.sprite.position.y]
 			// console.log("skelly ",skelly.number," position=",skellPos)
@@ -666,6 +693,7 @@ function slash(unit){
 	
 	} else if (unit.facing == "right"){
 		skellyArr.forEach(function(skelly){
+			manimation.play("manSlashRight",10,false)
 			var skellPos = [skelly.sprite.position.x,skelly.sprite.position.y]
 			// console.log("skelly ",skelly.number," position=",skellPos)
 			if (skellPos[0] >= pos[0] && skellPos[0] <= pos[0] + 32 && skellPos[1] >= pos[1]- 16 && skellPos[1] <= pos[1] +16){dmg = Math.floor(Math.random()*7 +3);
@@ -688,6 +716,7 @@ function slash(unit){
 		})
 
 	} else if (unit.facing == "down"){
+		manimation.play("manSlashDown",10,false)
 		skellyArr.forEach(function(skelly){
 			var skellPos = [skelly.sprite.position.x,skelly.sprite.position.y]
 			// console.log("skelly ",skelly.number," position=",skellPos)
@@ -711,6 +740,7 @@ function slash(unit){
 		})
 
 	} else if (unit.facing == "left"){
+		manimation.play("manSlashLeft",10,false)
 		skellyArr.forEach(function(skelly){
 			var skellPos = [skelly.sprite.position.x,skelly.sprite.position.y]
 			// console.log("skelly ",skelly.number," position=",skellPos)
