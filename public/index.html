@@ -3,19 +3,17 @@
     <head>
         <meta charset="UTF-8" />
         <title>Not even a game!</title>
+        <script type="text/javascript" src = "bower_components/jquery/dist/jquery.js"></script>
         <script type="text/javascript" src="bower_components/angular/angular.js"></script>
 
         <script src="bower_components/phaser/build/phaser.js"></script>
         <script src="bower_components/easystarjs/bin/easystar-0.3.0.js"></script>
         <script type="text/javascript" src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-        <script type="text/javascript" src = "bower_components/jquery/dist/jquery.js"></script>
         <link rel="stylesheet" type="text/css" href="bower_components/Materialize/bin/materialize.css">
          <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="styles/main.css" type="text/css" />
         <script type="text/javascript" src="bower_components/Materialize/bin/materialize.js"></script>
-        <script type="text/javascript" src ="game/menu.js" ></script>
-        <script type="text/javascript" src ="game/play.js" ></script>
-        <script type="text/javascript" src ="game/game.js" ></script>
+        
 
     </head>
     <body>
@@ -45,11 +43,15 @@
           </ul>
 	    </div>
 	</nav>
-	<h1>Click "Game"... it's the only thing here.</h1>
-	<h2>Oh, and log in to save scores</h2>
 
 
-    	<ui-view/>
+		<div id = "gameDiv"></div>
+
+    	<ui-view></ui-view>
+    	
+		<!-- <script type="text/javascript" src ="game/menu.js" ></script>
+		<script type="text/javascript" src ="game/play.js" ></script>
+		<script type="text/javascript" ng-if = "location.path() == '/#/game'" src ="game/game.js" ></script> -->
     	<script type="text/javascript" src = "js/app.js"></script>
     </body>
 </html>

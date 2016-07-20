@@ -4,14 +4,14 @@ angular.module('gameApp', ['ui.router'])
 configRouter.$inject = ['$stateProvider', '$urlRouterProvider']
 function configRouter($stateProvider, $urlRouterProvider){
     $stateProvider
-        .state('landing',{
+        .state('home',{
             url : '/',
-            templateUrl : '/index.html',
+            templateUrl : '/html/home.html',
             // controller : 'homeController as hCtrl'
         })
         .state('game', {
             url : '/game',
-            templateUrl : '/game.html'
+            templateUrl : '/html/game.html'
             // controller : 'gameController as gCtrl'
         })
         .state('login',{
