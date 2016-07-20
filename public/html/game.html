@@ -1,0 +1,42 @@
+<!doctype html>
+<html ng-app = "gameApp">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Not even a game!</title>
+        <script type="text/javascript" src="../bower_components/angular/angular.js"></script>
+
+        <script src="../bower_components/phaser/build/phaser.js"></script>
+        <script src="../bower_components/easystarjs/bin/easystar-0.3.0.js"></script>
+        <script type="text/javascript" src="../bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+        <script type="text/javascript" src = "../bower_components/jquery/dist/jquery.js"></script>
+        <link rel="stylesheet" type="text/css" href="../bower_components/Materialize/bin/materialize.css">
+         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="../styles/main.css" type="text/css" />
+        <script type="text/javascript" src="../bower_components/Materialize/bin/materialize.js"></script>
+
+    </head>
+    <body>
+    <!-- Dropdown Structure -->
+	<ul id="dropdown1" class="dropdown-content">
+	    <li><a href="#!">This</a></li>
+	    <li><a href="#!">That</a></li>
+	    <li class="divider"></li>
+	    <li><a href="#!">The other</a></li>
+	</ul>
+	<nav>
+	    <div class="nav-wrapper deep-orange darken-2">
+	        <a href="/" class="brand-logo">Lance Brown</a>
+	        <ul class="right hide-on-med-and-down">
+	            <li><a ui-sref = "game">Game</a></li>
+	            <li><a ui-sref = "login">Login</a></li>
+	            <!-- Dropdown Trigger -->
+	            <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Dropdown<i class="material-icons right">arrow_drop_down</i></a></li>
+	        </ul>
+	    </div>
+	</nav>
+
+    	<script type="text/javascript" src= "../game/game.js"></script>
+    	<ui-view/>
+    	<script type="text/javascript" src = "../js/app.js"></script>
+    </body>
+</html>

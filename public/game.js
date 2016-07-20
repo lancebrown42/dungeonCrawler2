@@ -2,7 +2,7 @@ var game = new Phaser.Game(800,600, Phaser.AUTO, '', { preload: preload, create:
 
 var pathArr = []
 var acceptableTiles = []
-$.getJSON("../assets/maps/testmap.json", function(json) {
+$.getJSON("assets/maps/testmap.json", function(json) {
 	// console.log(json.layers[0])
     var ph = json.layers[0].data;
     // console.log(ph)
@@ -21,40 +21,40 @@ $.getJSON("../assets/maps/testmap.json", function(json) {
 });
 
 function preload() {
-    game.load.tilemap('overworld', '../assets/maps/testmap.json', null, Phaser.Tilemap.TILED_JSON)
+    game.load.tilemap('overworld', 'assets/maps/testmap.json', null, Phaser.Tilemap.TILED_JSON)
     //player/enemy sprites
-    game.load.spritesheet('man', '../assets/walkcycle/BODY_male.png', 64, 64)
-    game.load.spritesheet('skelly','../assets/walkcycle/BODY_skeleton.png',64,64)
-    game.load.spritesheet('skellyDeath','../assets/hurt/BODY_skeleton.png',64,64)
-    game.load.spritesheet('death','../assets/hurt/BODY_male.png',64,64)
+    game.load.spritesheet('man', 'assets/walkcycle/BODY_male.png', 64, 64)
+    game.load.spritesheet('skelly','assets/walkcycle/BODY_skeleton.png',64,64)
+    game.load.spritesheet('skellyDeath','assets/hurt/BODY_skeleton.png',64,64)
+    game.load.spritesheet('death','assets/hurt/BODY_male.png',64,64)
     //clothing animation
-    game.load.spritesheet('plateShoes', '../assets/walkcycle/FEET_plate_armor_shoes.png', 64, 64)
-    game.load.spritesheet('plateHelm', '../assets/walkcycle/HEAD_plate_armor_helmet.png', 64, 64)
-    game.load.spritesheet('platePants', '../assets/walkcycle/LEGS_plate_armor_pants.png', 64, 64)
-    game.load.spritesheet('plateChest', '../assets/walkcycle/TORSO_plate_armor_torso.png', 64, 64)
-    game.load.spritesheet('leatherShoes', '../assets/walkcycle/FEET_shoes_brown.png', 64, 64)
-    game.load.spritesheet('leatherHelm', '../assets/walkcycle/HEAD_leather_armor_hat.png', 64, 64)
-    game.load.spritesheet('leatherPants', '../assets/walkcycle/LEGS_pants_greenish.png', 64, 64)
-    game.load.spritesheet('leatherChest', '../assets/walkcycle/TORSO_leather_armor_torso.png', 64, 64)    
+    game.load.spritesheet('plateShoes', 'assets/walkcycle/FEET_plate_armor_shoes.png', 64, 64)
+    game.load.spritesheet('plateHelm', 'assets/walkcycle/HEAD_plate_armor_helmet.png', 64, 64)
+    game.load.spritesheet('platePants', 'assets/walkcycle/LEGS_plate_armor_pants.png', 64, 64)
+    game.load.spritesheet('plateChest', 'assets/walkcycle/TORSO_plate_armor_torso.png', 64, 64)
+    game.load.spritesheet('leatherShoes', 'assets/walkcycle/FEET_shoes_brown.png', 64, 64)
+    game.load.spritesheet('leatherHelm', 'assets/walkcycle/HEAD_leather_armor_hat.png', 64, 64)
+    game.load.spritesheet('leatherPants', 'assets/walkcycle/LEGS_pants_greenish.png', 64, 64)
+    game.load.spritesheet('leatherChest', 'assets/walkcycle/TORSO_leather_armor_torso.png', 64, 64)    
     //slash animation
-    game.load.spritesheet('manSlash', '../assets/slash/BODY_human.png', 64, 64)
-    game.load.spritesheet('plateShoesSlash', '../assets/slash/FEET_plate_armor_shoes.png', 64, 64)
-    game.load.spritesheet('plateHelmSlash', '../assets/slash/HEAD_plate_armor_helmet.png', 64, 64)
-    game.load.spritesheet('platePantsSlash', '../assets/slash/LEGS_plate_armor_pants.png', 64, 64)
-    game.load.spritesheet('plateChestSlash', '../assets/slash/TORSO_plate_armor_torso.png', 64, 64)
-    game.load.spritesheet('leatherShoesSlash', '../assets/slash/FEET_shoes_brown.png', 64, 64)
-    game.load.spritesheet('leatherHelmSlash', '../assets/slash/HEAD_leather_armor_hat.png', 64, 64)
-    game.load.spritesheet('leatherPantsSlash', '../assets/slash/LEGS_pants_greenish.png', 64, 64)
-    game.load.spritesheet('leatherChestSlash', '../assets/slash/TORSO_leather_armor_torso.png', 64, 64)
-    game.load.spritesheet('swordSlash', '../assets/slash/WEAPON_dagger.png', 64, 64)
-        // game.load.spritesheet('man','../assets/BODY_male_left.png',64,64,9)
-    game.load.image('tiles', '../assets/maps/DungeonCrawl_ProjectUtumnoTileset.png')
-    game.load.image('axe', '../assets/item_sprites/axe.png')
-    game.load.image('closedDoor', '../assets/item_sprites/closedDoor.png')
-    game.load.image('bow', '../assets/item_sprites/bow.png')
-    game.load.image('sword', '../assets/item_sprites/sword.png')
-    game.load.image('plate', '../assets/item_sprites/steelChest.png')
-    game.load.spritesheet('sprites', '../assets/maps/DungeonCrawl_ProjectUtumnoTileset.png')
+    game.load.spritesheet('manSlash', 'assets/slash/BODY_human.png', 64, 64)
+    game.load.spritesheet('plateShoesSlash', 'assets/slash/FEET_plate_armor_shoes.png', 64, 64)
+    game.load.spritesheet('plateHelmSlash', 'assets/slash/HEAD_plate_armor_helmet.png', 64, 64)
+    game.load.spritesheet('platePantsSlash', 'assets/slash/LEGS_plate_armor_pants.png', 64, 64)
+    game.load.spritesheet('plateChestSlash', 'assets/slash/TORSO_plate_armor_torso.png', 64, 64)
+    game.load.spritesheet('leatherShoesSlash', 'assets/slash/FEET_shoes_brown.png', 64, 64)
+    game.load.spritesheet('leatherHelmSlash', 'assets/slash/HEAD_leather_armor_hat.png', 64, 64)
+    game.load.spritesheet('leatherPantsSlash', 'assets/slash/LEGS_pants_greenish.png', 64, 64)
+    game.load.spritesheet('leatherChestSlash', 'assets/slash/TORSO_leather_armor_torso.png', 64, 64)
+    game.load.spritesheet('swordSlash', 'assets/slash/WEAPON_dagger.png', 64, 64)
+        // game.load.spritesheet('man','assets/BODY_male_left.png',64,64,9)
+    game.load.image('tiles', 'assets/maps/DungeonCrawl_ProjectUtumnoTileset.png')
+    game.load.image('axe', 'assets/item_sprites/axe.png')
+    game.load.image('closedDoor', 'assets/item_sprites/closedDoor.png')
+    game.load.image('bow', 'assets/item_sprites/bow.png')
+    game.load.image('sword', 'assets/item_sprites/sword.png')
+    game.load.image('plate', 'assets/item_sprites/steelChest.png')
+    game.load.spritesheet('sprites', 'assets/maps/DungeonCrawl_ProjectUtumnoTileset.png')
 
 }
 var map,
