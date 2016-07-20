@@ -802,6 +802,10 @@ update: function() {
     currentPlayerXtile = Math.floor(man.body.position.x / tileSize);
 	currentPlayerYtile = Math.floor(man.body.position.y / tileSize);	
 
+    if(man.position.x > 1220 && man.position.y > 1220){
+        game.state.start("win")
+    }
+
 
 
 },
