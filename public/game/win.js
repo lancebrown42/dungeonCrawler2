@@ -18,6 +18,11 @@ var winState = {
 		// game.state.add("play", playState)
 		// game.state.add("win", winState)
 
-		game.state.start("menu")
+		// game.state.start("menu")
+		var canvas = document.getElementsByTagName('canvas')
+		canvas.innerHtml+="id = 'game'"
+		// canvas.parentElement.removeChild("canvas")
+		$("canvas").remove()
+		start()
 	}
 }

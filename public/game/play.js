@@ -121,7 +121,9 @@ function slash(unit){
     var pos = [unit.position.x,unit.position.y]
     console.log(pos)
     var dmg
+    man.loadTexture("manSlash")
     if(unit.facing == "up"){
+
         manimation.play("manSlashUp",10,false)
         skellyArr.forEach(function(skelly){
             var skellPos = [skelly.sprite.position.x,skelly.sprite.position.y]
@@ -254,6 +256,7 @@ function slash(unit){
         console.log("you done goofed"); 
         unit.hp--
     }
+    man.loadTexture("man")
 
 
 }
@@ -397,8 +400,8 @@ create: function() {
     //****************** *************************************************
     skellyArr = []
     var Skelly = function(number){
-    	this.spawnX = Math.floor(Math.random()*1000)
-    	this.spawnY = Math.floor(Math.random()*1000)
+    	this.spawnX = Math.floor(Math.random()*352 + 500)
+    	this.spawnY = Math.floor(Math.random()*416 + 500)
     	this.sprite = game.add.sprite(this.spawnX,this.spawnY,'skelly')
     	this.hp = 20
     	this.alive = true
