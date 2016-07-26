@@ -22,8 +22,6 @@
     currentPlayerYtile,
     currentSkellyXTile,
     currentSkellyYTile,
-    // currentNextPointX,
-    // currentNextPointY,
     tileSize,
     skellyArr,
     killList,
@@ -36,9 +34,7 @@ var pathArr = []
 var acceptableTiles = []
 playerObj = {"kills": kills}
 $.getJSON("../assets/maps/testmap.json", function(json) {
-    // console.log(json.layers[0])
     var ph = json.layers[0].data;
-    // console.log(ph)
     for(var i = 0; i<json.layers[0].height;i++){
 
         var ph2 = []
@@ -47,10 +43,8 @@ $.getJSON("../assets/maps/testmap.json", function(json) {
             if(ph[j+i*40]!=66&&ph[j+i*40]!=1078&&ph[j+i*40]!=1002){acceptableTiles.push(ph[j+i*40])}
         }
         pathArr[i] = ph2
-        // console.log(pathArr)
     }
 
-    // console.log(pathArr)
 });
 function overlapCallback(player, item, type) {
     if (type == "weapon") {
@@ -90,14 +84,10 @@ function death(player){
     player.hp = player.totalhp
     man.visible = false
     var drop = player.inventory.weapon
-    // console.log(drop)
     var drop2 = player.inventory.gold
-
     var newSprite = game.add.sprite(player.position.x, player.position.y, drop.name)
     newSprite.name = drop.name
-    console.log(newSprite)
     weapons.add(newSprite)
-    console.log(weapons)
     player.inventory.weapon = ""
     player.inventory.gold = ""
 
@@ -119,7 +109,6 @@ function damage(player){
 }
 function slash(unit){
     var pos = [unit.position.x,unit.position.y]
-    console.log(pos)
     var dmg
     man.loadTexture("manSlash")
     if(unit.facing == "up"){
@@ -127,13 +116,12 @@ function slash(unit){
         manimation.play("manSlashUp",10,false)
         skellyArr.forEach(function(skelly){
             var skellPos = [skelly.sprite.position.x,skelly.sprite.position.y]
-            // console.log("skelly ",skelly.number," position=",skellPos)
             if (skellPos[0] >= pos[0] - 16 && skellPos[0] <= pos[0] + 16 && skellPos[1] >= pos[1]- 32 && skellPos[1] <= pos[1]){dmg = Math.floor(Math.random()*7 +3);
                 skelly.hp-=dmg
                 if(skelly.hp <= 0){
                     skelly.alive = false
-                    // skelly.sprite.body.velocity.x = 0
-                    // skelly.sprite.body.velocity.y = 0
+
+
                     skelly.sprite.moves = false
                     skelly.sprite.animations.play('skellyDeath',5,false)
                     skelly.sprite.visible = false
@@ -151,7 +139,6 @@ function slash(unit){
 
 
                 }
-                // console.log(skelly.hp)
 
             }
         })
@@ -160,7 +147,6 @@ function slash(unit){
         skellyArr.forEach(function(skelly){
             manimation.play("manSlashRight",10,false)
             var skellPos = [skelly.sprite.position.x,skelly.sprite.position.y]
-            // console.log("skelly ",skelly.number," position=",skellPos)
             if (skellPos[0] >= pos[0] && skellPos[0] <= pos[0] + 32 && skellPos[1] >= pos[1]- 16 && skellPos[1] <= pos[1] +16){dmg = Math.floor(Math.random()*7 +3);
                 skelly.hp-=dmg
                 if(skelly.hp <= 0){
@@ -183,7 +169,6 @@ function slash(unit){
 
 
                 }
-                // console.log(skelly.hp)
 
             }
         })
@@ -192,7 +177,6 @@ function slash(unit){
         manimation.play("manSlashDown",10,false)
         skellyArr.forEach(function(skelly){
             var skellPos = [skelly.sprite.position.x,skelly.sprite.position.y]
-            // console.log("skelly ",skelly.number," position=",skellPos)
             if (skellPos[0] >= pos[0] - 16 && skellPos[0] <= pos[0] + 16 && skellPos[1] <= pos[1]+ 32 && skellPos[1] >= pos[1]){dmg = Math.floor(Math.random()*7 +3);
                 skelly.hp-=dmg
                 if(skelly.hp <= 0){
@@ -215,7 +199,6 @@ function slash(unit){
 
 
                 }
-                console.log(skelly.hp)
 
             }
         })
@@ -224,14 +207,12 @@ function slash(unit){
         manimation.play("manSlashLeft",10,false)
         skellyArr.forEach(function(skelly){
             var skellPos = [skelly.sprite.position.x,skelly.sprite.position.y]
-            // console.log("skelly ",skelly.number," position=",skellPos)
             if (skellPos[0] >= pos[0] - 16 && skellPos[0] <= pos[0] + 16 && skellPos[1] >= pos[1]- 32 && skellPos[1] <= pos[1]){dmg = Math.floor(Math.random()*7 +3);
                 skelly.hp-=dmg
                 if(skelly.hp <= 0){
                     skelly.alive = false
                     skelly.sprite.body.velocity.x = 0
                     skelly.sprite.body.velocity.y = 0
-                    // skelly.sprite.moves = false
                     skelly.sprite.animations.play('skellyDeath',5,false)
                     skelly.sprite.visible = false
                     killList.push(skellyArr.shift())
@@ -247,13 +228,11 @@ function slash(unit){
 
 
                 }
-                console.log(skelly.hp)
 
             }
         })
 
     } else {
-        console.log("you done goofed"); 
         unit.hp--
     }
     man.loadTexture("man")
@@ -291,7 +270,6 @@ preload: function() {
     game.load.spritesheet('leatherPantsSlash', '../assets/slash/LEGS_pants_greenish.png', 64, 64)
     game.load.spritesheet('leatherChestSlash', '../assets/slash/TORSO_leather_armor_torso.png', 64, 64)
     game.load.spritesheet('swordSlash', '../assets/slash/WEAPON_dagger.png', 64, 64)
-        // game.load.spritesheet('man','../assets/BODY_male_left.png',64,64,9)
     game.load.image('tiles', '../assets/maps/DungeonCrawl_ProjectUtumnoTileset.png')
     game.load.image('axe', '../assets/item_sprites/axe.png')
     game.load.image('closedDoor', '../assets/item_sprites/closedDoor.png')
@@ -328,24 +306,9 @@ create: function() {
 
     var easystar = new EasyStar.js();
 	easystar.setGrid(pathArr);
-
-	// console.log(acceptableTiles)
 	easystar.setAcceptableTiles(acceptableTiles);
 	easystar.setIterationsPerCalculation(10000)
 	tileSize = 32
-
-
-	// console.log(map)
-	// console.log(layer)
-	// console.log(easystar.setAcceptableTiles(layer._mc.tilesets))
-
-
-    // console.log(this.terrain)
-    // this.game.terrain = map.createLayer('Terrain');
-    // this.game.obj = map.createLayer('Object Layer 1')
-    // map.setCollisionBetween(900,1200);
-    // this.physics.p2.convertTilemap(map, this.terrain);
-    // console.log(this.physics.p2.convertTilemap(map, this.terrain))
     armor = game.add.group()
     weapons = game.add.group();
     doors = game.add.group();
@@ -465,7 +428,6 @@ create: function() {
 
 
 		        if (path === null) {
-			        console.log("The path to the destination point was not found.");
 			        // return
 			    }
 			    if(path[1]){
@@ -514,15 +476,6 @@ create: function() {
 	})}
 	)
 
-    // layer = map.createLayer("Ground")
-    // terrain = map.createLayer("Terrain")
-    // man = game.add.sprite(game.world.centerX, game.world.centerY, 'man');
-
-
-    // this.physics.p2.setImpactEvents(true);
-    // var playerCollisionGroup = this.physics.p2.createCollisionGroup();
-    // var terrainCollisionGroup = this.physics.p2.createCollisionGroup();
-    // this.physics.p2.updateBoundsCollisionGroup();
     game.physics.arcade.enable(man)
 
 
@@ -534,21 +487,11 @@ create: function() {
     game.camera.setBoundsToWorld()
     game.camera.setSize(800,600)
     game.camera.follow(man)
-        // walls = game.add.group()
-        // man.enableBody = true
-        // walls.enableBody = true
-        // walls.physicsBodyType = Phaser.Physics.P2JS;
-        // this.physics.enable([man,this.terrain],Phaser.Physics.ARCADE)
+
     map.setCollisionBetween(1, 4000, true, terrain)
 
-    // this.physics.p2.setBoundsToWorld(true, true, true, true, false);
     man.body.collideWorldBounds = true
-    // helm.body.collideWorldBounds = true
-    // shoes.body.collideWorldBounds = true
-    // chest.body.collideWorldBounds = true
-    // pants.body.collideWorldBounds = true
-        // man.body.setZeroDamping();
-        // man.body.fixedRotation = true;
+
         //*****************************************************************
         //animate the player
         //*****************************************************************
@@ -605,7 +548,9 @@ create: function() {
     pantsAni.add('pantsSlashRight', [28, 29, 30, 31, 32, 33, 34, 35], 20, true)
     pantsAni.add('pantsSlashLeft', [1, 2, 3, 4, 5, 6, 7, 8], 20, true)
     pantsAni.add('pantsSlashDown', [19, 20, 21, 22, 23, 24, 25, 26], 20, true)
-        //*************************************************************        //*************************************************************
+        //*************************************************************        
+
+        //*************************************************************
 
         //*************************************************************
 
@@ -628,10 +573,7 @@ update: function() {
         shoesAni.stop(true);
         chestAni.stop(true); }, null)
     //*******healthbar code********************
-    // healthbar = game.add.graphics(0, 0);
-    // man.children.push(healthbar)
-    // var hp = man.health/man.totalhp * 100;
-    // healthbar.lineStyle(5,1)
+
 
 
     healthbar.scale.setTo(man.hp/man.totalhp,1)
@@ -639,11 +581,7 @@ update: function() {
 
 	    game.physics.arcade.collide(skelly, terrain)
     })
- //    if (skellyArr.length > maxSkellies){
-	// 	clearInterval(spawnInterval)
-	// } else if(skellyArr.length < maxSkellies){
-	// 	spawnInterval
-	// }
+
     game.physics.arcade.collide(man, terrain);
 
     if (keyAct.isDown) {
@@ -719,10 +657,10 @@ update: function() {
     }
     var enemySpeed = 90;
 				skellyArr.forEach(function(skelly){
-					if(!skelly.alive){console.log('hes ded jim');return}//in case it has been killed
+					if(!skelly.alive){return}//in case it has been killed
 		       
 		        if (skelly.enemyDirection == "N") {
-		        	if(!skelly.alive){console.log('hes ded jim');return}
+		        	if(!skelly.alive){return}
 		        	skelly.sprite.body.velocity.x = 0
 		        	skelly.sprite.body.velocity.y = -enemySpeed;
 		        	skelly.sprite.animations.play("walkUp",10,false)
@@ -731,14 +669,14 @@ update: function() {
 		        }
 		        else if (skelly.enemyDirection == "S")
 		        {
-		        	if(!skelly.alive){console.log('hes ded jim');return}
+		        	if(!skelly.alive){return}
 		        	skelly.sprite.body.velocity.x = 0
 		        	skelly.sprite.body.velocity.y = enemySpeed;
 		        	skelly.sprite.animations.play("walkDown",10,false)
 		        	
 		        }
 		        else if (skelly.enemyDirection == "E") {
-		        	if(!skelly.alive){console.log('hes ded jim');return}
+		        	if(!skelly.alive){return}
 		        	skelly.sprite.body.velocity.x = enemySpeed;
 		        	skelly.sprite.body.velocity.y = 0
 		        	skelly.sprite.animations.play("walkRight",10,false)
@@ -746,7 +684,7 @@ update: function() {
 		        }
 		        else if (skelly.enemyDirection == "W")
 		        {
-		        	if(!skelly.alive){console.log('hes ded jim');return}
+		        	if(!skelly.alive){return}
 		        	skelly.sprite.body.velocity.x = -enemySpeed;
 		        	skelly.sprite.body.velocity.y = 0
 		        	skelly.sprite.animations.play("walkLeft",10,false)
@@ -754,13 +692,13 @@ update: function() {
 
 		        else if (skelly.enemyDirection == "STOP")
 		        {
-		        	if(!skelly.alive){console.log('hes ded jim');return}
+		        	if(!skelly.alive){return}
 		        	skelly.sprite.body.velocity.x = 0;
 		        	skelly.sprite.body.velocity.y = 0;
 		        }
 		        else // JUST IN CASE IF enemyDirection wouldnt exist we stop the skelly.sprite movement
 		        {
-		        	if(!skelly.alive){console.log('hes ded jim');return}
+		        	if(!skelly.alive){return}
 		        	skelly.sprite.body.velocity.x = 0;
 		        	skelly.sprite.body.velocity.y = 0;
 		        }
@@ -782,10 +720,6 @@ update: function() {
             // hitting something above
 
         } else if (man.body.blocked.down) {
-
-            // console.log(man)
-
-            // on the ground. same as man.body.onFloor() ??
 
         }
     } else if (keyAttack.isDown) {
