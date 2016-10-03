@@ -4,5 +4,11 @@
 <script type="text/javascript" src = "game/win.js"></script>
 <script type="text/javascript" src ="game/game.js" ></script>
 
-<div id = "gameDiv"></div>
-<!-- <p>Score: {{gCtrl.score}}       Kills: {{gCtrl.kills}}</p> -->
+<div id = "gameDiv" style = "width: 100%"></div>
+<div id = "gameWriteUp" class = "container">
+	<div class = "row">
+		<h3 class = "s10 offset-s1 m8 offset-m2">This is "Skelly Crawler"</h3>
+		<p>This is a brief demonstration of an HTML5 Canvas browser game written entirely in Javascript. It was convceived, designed, and built over the course of approximately one week as a final project for the RefactorU Javascript bootcamp in Boulder, CO. The game implements the Phaser.io library for game development as well as a robust A* pathfinding algorithm. It features a player character who can move about and pick up items using the "E" key. There are two items in the game, the first being a sword which enables the player to attack the never ending horde of skeletons using the spacebar. The second is a set of armor that increases the player's health. Skeletons receive damage on being attacked until they are (more) dead. Making contact with a skeleton will cause the player to take damage. The game is completed when the player reaches the end.</p>
+		<p>The game was my first foray into game development, and was a great tool in learning how to interact with some of the smaller, less-than-well-documented libraries that can still be very powerful. For the final, I felt that I had a fairly strong grasp on how to make a simple SPA webapp, and wanted to stand out from the rest of the class, so I decided to delve deeper into the raw Javascript coding. It was a tremendous learning experience.  Sadly, the game is dependent on keyboard input, and is not compatible with mobile interfaces. The game is riddled with bugs, but I will not be fixing them, as I want the game to remain a demonstration of what I can accomplish in a week in unfamiliar territory.</p>
+	</div>
+</div>
