@@ -20,6 +20,10 @@ function configRouter($stateProvider, $urlRouterProvider){
             templateUrl : '/html/login.html',
             controller : 'userController as uCtrl'
         })
+        .state('resume',{
+            url: '/resume',
+            templateUrl : '/html/resume.html'
+        })
     $urlRouterProvider.otherwise('/')
 }
 gameController.$inject = ['$http', '$stateParams']
