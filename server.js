@@ -8,6 +8,7 @@ var mongoose = require('mongoose');
 var apiRouter = require('./api-routes')
 // Create Express App Object \\
 var app = express();
+var port = 1337;
 
 
 module.exports = app
@@ -130,7 +131,7 @@ app.get('/game',function(req,res){
 })
 
 // Creating Server and Listening for Connections \\
-var port = process.env.PORT || 80
+var port = process.env.PORT || port
 app.listen(port, function(){
   console.log('Server running on port ' + port);
 
